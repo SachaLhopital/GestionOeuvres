@@ -2,9 +2,11 @@
   <library name="lib">
     <CLASSES>
       <root url="file://D:/apache-tomcat-8.5.11/lib" />
+      <root url="file://C:/apache-tomcat-8.5.11/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
+    <jarDirectory url="file://C:/apache-tomcat-8.5.11/lib" recursive="false" />
     <jarDirectory url="file://D:/apache-tomcat-8.5.11/lib" recursive="false" />
   </library>
 </component>
