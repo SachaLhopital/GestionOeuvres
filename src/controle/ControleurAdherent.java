@@ -2,6 +2,7 @@ package controle;
 
 
 import dao.Service;
+import dao.ServiceAdherent;
 import meserreurs.MonException;
 import metier.Adherent;
 
@@ -59,7 +60,7 @@ public class ControleurAdherent extends HttpServlet{
         if (LISTER_RADHERENT.equals(actionName)) {
             try {
 
-                Service unService = new Service();
+                ServiceAdherent unService = new ServiceAdherent();
                 request.setAttribute("mesAdherents", unService.consulterListeAdherents());
 
             } catch (MonException e) {
@@ -79,7 +80,7 @@ public class ControleurAdherent extends HttpServlet{
                 unAdherent.setNomAdherent(request.getParameter("txtnom"));
                 unAdherent.setPrenomAdherent(request.getParameter("txtprenom"));
                 unAdherent.setVilleAdherent(request.getParameter("txtville"));
-                Service unService = new Service();
+                ServiceAdherent unService = new ServiceAdherent();
                 unService.insertAdherent(unAdherent);
 
             } catch (MonException e) {
