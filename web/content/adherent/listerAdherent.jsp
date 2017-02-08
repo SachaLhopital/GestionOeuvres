@@ -10,7 +10,7 @@
 </head>
 <body>
 	<P>
-		<A href="index.jsp"><FONT face="Arial" color="#004080">Retour
+		<A href="../index.jsp"><FONT face="Arial" color="#004080">Retour
 				Accueil</FONT></A>
 	</P>
 	<P align="center">

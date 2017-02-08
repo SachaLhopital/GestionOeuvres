@@ -56,7 +56,7 @@ public class Controleur extends HttpServlet {
 	}
 
 	protected void processusTraiteRequete(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException {}/*
 		String actionName = request.getParameter(ACTION_TYPE);
 		String destinationPage = ERROR_PAGE;
 		// execute l'action
@@ -71,12 +71,12 @@ public class Controleur extends HttpServlet {
 				e.printStackTrace();
 			}
 
-			destinationPage = "/listerAdherent.jsp";
+			destinationPage = "/content/adherent/listerAdherent.jsp";
 		}
 
 		if (AJOUTER_ADHERENT.equals(actionName)) {
 
-			destinationPage = "/ajouterAdherent.jsp";
+			destinationPage = "/content/adherent/ajouterAdherent.jsp";
 		} else if (INSERER_ADHERENT.equals(actionName)) {
 			try {
 				Adherent unAdherent = new Adherent();
@@ -101,6 +101,6 @@ public class Controleur extends HttpServlet {
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(destinationPage);
 		dispatcher.forward(request, response);
 
-	}
+	}*/
 
 }

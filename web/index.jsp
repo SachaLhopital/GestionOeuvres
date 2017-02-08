@@ -43,9 +43,9 @@
 		<font color="#004080" face="Arial"><u>Ancien menu :</u></font>
 	</p>
 	<ul>
-		<li><a href="Controleur?action=ajouterAdherent"><font
+		<li><a href="ControleurAdherent?action=ajouterAdherent"><font
 				face="Arial">Ajout Adhérent</font></a></li>
-		<li><a href="Controleur?action=listerAdherent"><font
+		<li><a href="ControleurAdherent?action=listerAdherent"><font
 				face="Arial">lister les adhérents</font></a><font face="Arial"> </font></li>
 		<li><a href="javascript:fermer()"><font face="Arial">Quitter</font></a><font
 			face="Arial"> </font></li>
