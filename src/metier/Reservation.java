@@ -3,7 +3,6 @@ package metier;
 import java.io.Serializable;
 import java.util.Date;
 
-
 /**
  * The persistent class for the reservation database table.
  * 
@@ -18,16 +17,12 @@ public class Reservation implements Serializable {
 	public Reservation() {
 	}
 
-
-
 	public Reservation(Date date, Adherent adherent, Oeuvrevente oeuvrevente) {
 		super();
 		this.date = date;
 		this.adherent = adherent;
 		this.oeuvrevente = oeuvrevente;
 	}
-
-
 
 	public Date getDate() {
 		return this.date;
