@@ -15,11 +15,14 @@ import java.io.IOException;
 
 @WebServlet ("/ControleurAdherent")
 public class ControleurAdherent extends HttpServlet{
+
     private static final long serialVersionUID = 1L;
+
     private static final String ACTION_TYPE = "action";
     private static final String LISTER_RADHERENT = "listerAdherent";
     private static final String AJOUTER_ADHERENT = "ajouterAdherent";
     private static final String INSERER_ADHERENT = "insererAdherent";
+
     private static final String ERROR_KEY = "messageErreur";
     private static final String ERROR_PAGE = "/erreur.jsp";
 
@@ -51,11 +54,62 @@ public class ControleurAdherent extends HttpServlet{
         processusTraiteRequete(request, response);
     }
 
+    /***
+     * Redirige vers la bonne vue, avec les bonnes données
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void processusTraiteRequete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String actionName = request.getParameter(ACTION_TYPE);
         String destinationPage = ERROR_PAGE;
-        // execute l'action
+
+        switch(actionName) {
+
+            case LISTER_RADHERENT :
+                try {
+
+                    Service unService = new Service();
+                    request.setAttribute("mesAdherents", unService.consulterListeAdherents());
+
+                } catch (MonException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                destinationPage = "/content/adherent/listerAdherent.jsp";
+                break;
+
+            case AJOUTER_ADHERENT:
+                destinationPage = "/content/adherent/ajouterAdherent.jsp";
+                break;
+
+            case INSERER_ADHERENT:
+                try {
+                    Adherent unAdherent = new Adherent();
+                    unAdherent.setNomAdherent(request.getParameter("txtnom"));
+                    unAdherent.setPrenomAdherent(request.getParameter("txtprenom"));
+                    unAdherent.setVilleAdherent(request.getParameter("txtville"));
+                    Service unService = new Service();
+                    unService.insertAdherent(unAdherent);
+
+                } catch (MonException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                destinationPage = "/index.jsp";
+                break;
+
+            default:
+                String messageErreur = "[" + actionName + "] n'est pas une action valide.";
+                request.setAttribute(ERROR_KEY, messageErreur);
+        }
+
+        /* --- VéRIFIER QUE LE SWITCH FONCTIONNE BIEN, et supprimer cette partie --- */
+        /*// execute l'action
         if (LISTER_RADHERENT.equals(actionName)) {
             try {
 
@@ -87,15 +141,15 @@ public class ControleurAdherent extends HttpServlet{
                 e.printStackTrace();
             }
             destinationPage = "/index.jsp";
-        }
+        }*/
 
-        else {
+        /*else {
             String messageErreur = "[" + actionName + "] n'est pas une action valide.";
             request.setAttribute(ERROR_KEY, messageErreur);
-        }
+        }*/
+
         // Redirection vers la page jsp appropriee
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(destinationPage);
         dispatcher.forward(request, response);
-
     }
 }

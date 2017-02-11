@@ -1,41 +1,62 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Affichage de tous les adhérents</title>
-</head>
-<body>
-	<P>
-		<A href="../index.jsp"><FONT face="Arial" color="#004080">Retour
-				Accueil</FONT></A>
-	</P>
-	<P align="center">
-		<FONT face="Arial" size="5" color="#004080"><U> <STRONG>Listing&nbsp;des
-					Adhérents </STRONG></U></FONT>
-	</P>
+<%@include file="../commun/header.jsp"%>
 
-	<TABLE BORDER="1">
-		<CAPTION>Tableau des Adhérents</CAPTION>
-		<TR>
-			<TH>Numero</TH>
-			<TH>Nom</TH>
-			<TH>Prénom</TH>
-			<TH>Ville</TH>
+<div class="row">
+    <div class="col-sm-2">
+        <a href="../index.jsp"><span class="fa fa-home fa-2x"></span></a>
+    </div>
+    <div class="col-sm-8"></div>
+    <div class="col-sm-2">
+        <a href="ControleurAdherent?action=ajouterAdherent">
+            <button type="button" class="btn btn-primary" aria-label="Left Align">
+                <span class="fa fa-user-plus" aria-hidden="true">&nbsp;Ajouter un Adh&eacute;rent</span>
+            </button>
+        </a>
+    </div>
+</div>
 
-		</TR>
+<div class="row text-center">
+    <h3>Listing&nbsp;des Adh&eacute;rents</h3>
+</div>
 
-		<c:forEach items="${mesAdherents}" var="item">
-			<tr>
-				<td>${item.idAdherent}</td>
-				<td>${item.nomAdherent}</td>
-				<td>${item.prenomAdherent}</td>
-                <td>${item.villeAdherent}</td>
-			</tr>
-		</c:forEach>
-	</TABLE>
-</body>
-</html>
+<%-- Listing Adhérents --%>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel-body">
+            <table class="table table-hover table-striped table-bordered">
+                <caption>Tableau des Adh&eacute;rents</caption>
+                <TR>
+                    <TH>Numero</TH>
+                    <TH>Nom</TH>
+                    <TH>Pr&eacute;nom</TH>
+                    <TH>Ville</TH>
+                    <th></th>
+                </TR>
+
+                <c:forEach items="${mesAdherents}" var="item">
+                    <tr>
+                        <td>${item.idAdherent}</td>
+                        <td>${item.nomAdherent}</td>
+                        <td>${item.prenomAdherent}</td>
+                        <td>${item.villeAdherent}</td>
+                        <td>
+                            <a href="#">
+                                <button type="button" class="btn btn-info" aria-label="Left Align">
+                                    <span class="fa fa-pencil" aria-hidden="true"></span>
+                                </button>
+                            </a>
+                            <a href="#">
+                                <button type="button" class="btn btn-danger" aria-label="Left Align">
+                                    <span class="fa fa-user-times" aria-hidden="true"></span>
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%@include file="/content/commun/footer.jsp"%>
