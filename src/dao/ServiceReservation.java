@@ -15,9 +15,9 @@ import java.util.List;
  * Created by lafay on 08/02/2017.
  */
 public class ServiceReservation {
-    public List<Reservation> consulterProprietaires(){
+    /*public List<Reservation> consulterProprietaires(){
         return consulterProprietaires("Select * fom Proprietaire;");
-    }
+    }*/
 
     public Reservation consulterProprietaire(int id){
         /*List<Reservation> reservations = consulterReservations("Select * fom Reservation where idproprietaire = "+id+";");
