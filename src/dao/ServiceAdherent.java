@@ -14,7 +14,6 @@ public class ServiceAdherent {
     // Mise � jour des caract�ristiques d'un adh�rent
     // Le booleen indique s'il s'agit d'un nouvel adh�rent, auquel cas on fait
     // une cr�ation
-
     public void insertAdherent(Adherent unAdherent) throws MonException {
         String mysql;
 
@@ -52,6 +51,7 @@ public class ServiceAdherent {
         return consulterListeAdherents(mysql);
     }
 
+
     private List<Adherent> consulterListeAdherents(String mysql) throws MonException {
         List<Object> rs;
         List<Adherent> mesAdherents = new ArrayList<Adherent>();
@@ -76,5 +76,70 @@ public class ServiceAdherent {
         } catch (Exception exc) {
             throw new MonException(exc.getMessage(), "systeme");
         }
+    }
+
+    public void supprimerAdherent (Adherent adherent){
+        String rq = "delete from adherent where idadherent ="+adherent.getIdAdherent()+";";
+
+        DialogueBd unDialogueBd = DialogueBd.getInstance();
+        try{
+            unDialogueBd.execute(rq);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+        //suppression des reservations de l'adherent
+        new ServiceReservation().supprimerReservation(adherent);
+    }
+
+    public Adherent modifierAdherent(Adherent adherent){
+        String rq = "update adherent set nom_adherent="+adherent.getNomAdherent()+
+                ", prenom_adherent ="+adherent.getPrenomAdherent()+
+                ", ville_adherent ="+adherent.getVilleAdherent()+
+                " where id_adherent="+adherent.getIdAdherent();
+
+        DialogueBd unDialogueBd = DialogueBd.getInstance();
+        try{
+            unDialogueBd.execute(rq);
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+
+        return adherent;
+    }
+
+    public Adherent ajouterAdherent(Adherent adherent){
+        String rq = "insert into adherent (nom_adherent, prenom_adherent, ville_adherent) values ("+
+                adherent.getNomAdherent()+","+adherent.getPrenomAdherent()+","+adherent.getVilleAdherent()+")";
+
+        DialogueBd unDialogueBd = DialogueBd.getInstance();
+        try{
+            unDialogueBd.insertionBD(rq);
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+
+        //recuperation de l'ID
+        rq = "select LAST_INSERT_ID();";
+
+        List<Object> rs = new ArrayList<>();
+        try
+        {
+            rs = DialogueBd.lecture(rq);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+
+        if(rs.size()<=0){
+            return null;
+        }
+
+        adherent.setIdAdherent(Integer.parseInt(rs.get(0).toString()));
+
+        return adherent;
+
     }
 }

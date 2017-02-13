@@ -1,6 +1,7 @@
 package dao;
 
 import meserreurs.MonException;
+import metier.Adherent;
 import metier.Proprietaire;
 import metier.Reservation;
 import persistance.DialogueBd;
@@ -59,4 +60,30 @@ public class ServiceReservation {
 
         return mesReservations;
     }
+
+    public void supprimerReservation(Reservation resa){
+        String rq = "delete from reservation where idoeuvrevente="+resa.getOeuvrevente().getIdOeuvrevente()+
+                " and date_reservation="+FonctionsUtiles.DateToString(resa.getDate(),"yyyy-MM-dd");
+
+        DialogueBd unDialogueBd = DialogueBd.getInstance();
+        try{
+            unDialogueBd.execute(rq);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void supprimerReservation(Adherent adherent){
+        String rq = "delete from reservation where idadherent="+adherent.getIdAdherent();
+
+        DialogueBd unDialogueBd = DialogueBd.getInstance();
+        try{
+            unDialogueBd.execute(rq);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+
 }

@@ -3,7 +3,7 @@ Projet J2E Tomcat
 
 ## TODO 
 
-* CRUD Adhérents
+* CRUD Adhérents -> service fini
 * CRUD Réservations
 * CRUD Oeuvres
 * CRUD Propriétaires 
