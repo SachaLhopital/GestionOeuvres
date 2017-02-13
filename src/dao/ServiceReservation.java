@@ -15,16 +15,17 @@ import java.util.List;
  * Created by lafay on 08/02/2017.
  */
 public class ServiceReservation {
-    /*public List<Reservation> consulterProprietaires(){
-        return consulterProprietaires("Select * fom Proprietaire;");
-    }*/
 
-    public Reservation consulterProprietaire(int id){
-        /*List<Reservation> reservations = consulterReservations("Select * fom Reservation where idproprietaire = "+id+";");
-        if(proprietaires.size()<1){
+    public List<Reservation> consulterReserevations(){
+        return consulterReservations("Select * fom Reservation;");
+    }
+
+    public Reservation consulterReservetion(int id){
+        List<Reservation> reservations = consulterReservations("Select * fom Reservation where idreservetion = "+id+";");
+        if(reservations.size()<1){
             return null;
         }
-        return proprietaires.get(0);*/
+        return reservations.get(0);
     }
 
     private List<Reservation> consulterReservations(String mysql){
