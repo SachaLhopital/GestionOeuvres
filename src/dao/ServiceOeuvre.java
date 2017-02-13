@@ -80,4 +80,36 @@ public class ServiceOeuvre {
 
         return mesOeuvrevente;
     }
+
+    public Oeuvrevente consulterOeuvreVente(int id){
+        Oeuvrevente uneO = new Oeuvrevente();
+        String rq = "Select * from oeuvreVente where idoeuvrevente ="+id;
+        List<Object> rs;
+
+        int index = 0;
+        try {
+            DialogueBd unDialogueBd = DialogueBd.getInstance();
+            rs = DialogueBd.lecture(rq);
+            while (index < rs.size()) {
+                // il faut redecouper la liste pour retrouver les lignes
+                uneO.setIdOeuvrevente(Integer.parseInt(rs.get(index + 0).toString()));
+                uneO.setTitreOeuvrevente(rs.get(index + 1).toString());
+                uneO.setEtatOeuvrevente(rs.get(index + 2).toString());
+                uneO.setPrixOeuvrevente(Integer.parseInt(rs.get(index + 3).toString()));
+                uneO.setProprietaire(new ServiceProprietaire().consulterProprietaire(Integer.parseInt(rs.get(index + 4).toString())));
+                // On incr�mente tous les 3 champs
+                index = index + 5;
+            }
+
+            return uneO;
+        } catch (Exception exc) {
+            try {
+                throw new MonException(exc.getMessage(), "systeme");
+            } catch (MonException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return uneO;
+    }
 }
