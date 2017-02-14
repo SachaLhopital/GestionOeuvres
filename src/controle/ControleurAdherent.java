@@ -20,7 +20,7 @@ public class ControleurAdherent extends HttpServlet{
     private static final long serialVersionUID = 1L;
 
     private static final String ACTION_TYPE = "action";
-    private static final String LISTER_RADHERENT = "listerAdherent";
+    private static final String LISTER_ADHERENT = "listerAdherent";
     private static final String AJOUTER_ADHERENT = "ajouterAdherent";
     private static final String INSERER_ADHERENT = "insererAdherent";
 
@@ -70,7 +70,7 @@ public class ControleurAdherent extends HttpServlet{
 
         switch(actionName) {
 
-            case LISTER_RADHERENT :
+            case LISTER_ADHERENT :
                 try {
 
                     ServiceAdherent unService = new ServiceAdherent();
@@ -97,7 +97,7 @@ public class ControleurAdherent extends HttpServlet{
                     ServiceAdherent unService = new ServiceAdherent();
                     unService.insertAdherent(unAdherent);
 
-                } catch (MonException e) {
+                } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }

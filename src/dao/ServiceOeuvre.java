@@ -13,6 +13,9 @@ import java.util.List;
  * Created by lafay on 08/02/2017.
  */
 public class ServiceOeuvre {
+
+    //region oeuvre pret
+
     public List<Oeuvrepret> ConsulterListeOeuvrepret(){
         List<Object> rs;
         List<Oeuvrepret> mesOeuvrepret = new ArrayList<Oeuvrepret>();
@@ -46,6 +49,78 @@ public class ServiceOeuvre {
         return mesOeuvrepret;
     }
 
+    public Oeuvrepret insertOeuvrepret(Oeuvrepret oeuvre){
+        String rq = "insert into oeuvrepret (id_proprietaire, titre_oeuvrepret) values ("+
+                oeuvre.getProprietaire().getIdProprietaire()+","+
+                "'"+oeuvre.getTitreOeuvrepret()+"'";
+
+        DialogueBd unDialogueBd = DialogueBd.getInstance();
+        try{
+            unDialogueBd.insertionBD(rq);
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+
+        //recuperation de l'ID
+        rq = "select LAST_INSERT_ID();";
+
+        List<Object> rs = new ArrayList<>();
+        try
+        {
+            rs = DialogueBd.lecture(rq);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+
+        if(rs.size()<=0){
+            return null;
+        }
+
+        oeuvre.setIdOeuvrepret(Integer.parseInt(rs.get(0).toString()));
+
+        return oeuvre;
+    }
+
+    public void supprimerOeuvrepret (Oeuvrepret oeuvre){
+        String rq = "delete from oeuvrepret where id_oeuvrepret ="+oeuvre.getIdOeuvrepret();
+
+        try {
+            DialogueBd.getInstance().execute(rq);
+        } catch (MonException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void supprimerOeuvrepret(Proprietaire prop){
+        String rq = "delete from oeuvrepret where id_proprietaire ="+prop.getIdProprietaire();
+
+        try {
+            DialogueBd.getInstance().execute(rq);
+        } catch (MonException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Oeuvrepret modifierOeuvrepret(Oeuvrepret oeuvre){
+        String rq = "update oeuvrepret set "+
+                "id_proprietaire ="+oeuvre.getProprietaire().getIdProprietaire()+
+                ", titre_oeuvrepret='"+oeuvre.getTitreOeuvrepret()+"'"+
+                " where id_oeuvrepret="+oeuvre.getIdOeuvrepret();
+        try {
+            DialogueBd.getInstance().execute(rq);
+        } catch (MonException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return oeuvre;
+    }
+    //endregion
+
+
+
+    //region oeuvrevente
     public List<Oeuvrevente> ConsulterListeOeuvrevente(){
         List<Object> rs;
         List<Oeuvrevente> mesOeuvrevente = new ArrayList<Oeuvrevente>();
@@ -112,4 +187,80 @@ public class ServiceOeuvre {
 
         return uneO;
     }
+
+    public Oeuvrevente insererOeuvrevente (Oeuvrevente oeuvre){
+        String rq = "inset into oeuvrevente (etat_oeuvrevente, id_proprietaire, prix_oeuvrevente, titre_oeuvrevente) Values ("+
+                "'"+oeuvre.getEtatOeuvrevente()+"',"+
+                oeuvre.getProprietaire().getIdProprietaire()+","+
+                oeuvre.getPrixOeuvrevente()+","+
+                "'"+oeuvre.getTitreOeuvrevente()+"'";
+
+        DialogueBd unDialogueBd = DialogueBd.getInstance();
+        try{
+            unDialogueBd.insertionBD(rq);
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+
+        //recuperation de l'ID
+        rq = "select LAST_INSERT_ID();";
+
+        List<Object> rs = new ArrayList<>();
+        try
+        {
+            rs = DialogueBd.lecture(rq);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+
+        if(rs.size()<=0){
+            return null;
+        }
+
+        oeuvre.setIdOeuvrevente(Integer.parseInt(rs.get(0).toString()));
+
+        return oeuvre;
+    }
+
+    public Oeuvrevente modifierOeuvrevente(Oeuvrevente oeuvre){
+        String rq = "Update oeuvrevente set"+
+                "etat_oeuvrevente='"+oeuvre.getEtatOeuvrevente()+"',"+
+                "id_proprietaire="+oeuvre.getProprietaire().getIdProprietaire()+","+
+                "prix_oeuvrevente="+oeuvre.getPrixOeuvrevente()+","+
+                "titre_oeuvrevente='"+oeuvre.getTitreOeuvrevente()+"'"+
+                " where id_oeuvrevente="+oeuvre.getIdOeuvrevente();
+
+        try {
+            DialogueBd.getInstance().execute(rq);
+        } catch (MonException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return oeuvre;
+
+    }
+
+    public void supprimerOeuvrevente (Oeuvrevente oeuvre){
+        String rq = "Delete from oeuvrevente where id_oeuvrevente ="+oeuvre.getIdOeuvrevente();
+
+        try {
+            DialogueBd.getInstance().execute(rq);
+        } catch (MonException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void supprimerOeuvrevente(Proprietaire prop){
+        String rq = "delete from oeuvrevente where id_proprietaire="+prop.getIdProprietaire();
+
+        try {
+            DialogueBd.getInstance().execute(rq);
+        } catch (MonException e) {
+            e.printStackTrace();
+        }
+    }
+    //endregion
 }

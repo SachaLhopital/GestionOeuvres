@@ -14,7 +14,7 @@ public class ServiceAdherent {
     // Mise � jour des caract�ristiques d'un adh�rent
     // Le booleen indique s'il s'agit d'un nouvel adh�rent, auquel cas on fait
     // une cr�ation
-    public void insertAdherent(Adherent unAdherent) throws MonException {
+    /*public void insertAdherent(Adherent unAdherent) throws MonException {
         String mysql;
 
         DialogueBd unDialogueBd = DialogueBd.getInstance();
@@ -27,7 +27,7 @@ public class ServiceAdherent {
         } catch (MonException e) {
             throw e;
         }
-    }
+    }*/
 
     // gestion des adherents
     // Consultation d'un adh�rent par son num�ro
@@ -79,7 +79,7 @@ public class ServiceAdherent {
     }
 
     public void supprimerAdherent (Adherent adherent){
-        String rq = "delete from adherent where idadherent ="+adherent.getIdAdherent()+";";
+        String rq = "delete from adherent where id_adherent ="+adherent.getIdAdherent()+";";
 
         DialogueBd unDialogueBd = DialogueBd.getInstance();
         try{
@@ -93,9 +93,9 @@ public class ServiceAdherent {
     }
 
     public Adherent modifierAdherent(Adherent adherent){
-        String rq = "update adherent set nom_adherent="+adherent.getNomAdherent()+
-                ", prenom_adherent ="+adherent.getPrenomAdherent()+
-                ", ville_adherent ="+adherent.getVilleAdherent()+
+        String rq = "update adherent set nom_adherent="+adherent.getNomAdherent()+"'"+
+                ", prenom_adherent ='"+adherent.getPrenomAdherent()+"'"+
+                ", ville_adherent ='"+adherent.getVilleAdherent()+"'"+
                 " where id_adherent="+adherent.getIdAdherent();
 
         DialogueBd unDialogueBd = DialogueBd.getInstance();
@@ -109,9 +109,9 @@ public class ServiceAdherent {
         return adherent;
     }
 
-    public Adherent ajouterAdherent(Adherent adherent){
-        String rq = "insert into adherent (nom_adherent, prenom_adherent, ville_adherent) values ("+
-                adherent.getNomAdherent()+","+adherent.getPrenomAdherent()+","+adherent.getVilleAdherent()+")";
+    public Adherent insertAdherent(Adherent adherent){
+        String rq = "insert into adherent (nom_adherent, prenom_adherent, ville_adherent) values ('"+
+                adherent.getNomAdherent()+"','"+adherent.getPrenomAdherent()+"','"+adherent.getVilleAdherent()+"')";
 
         DialogueBd unDialogueBd = DialogueBd.getInstance();
         try{

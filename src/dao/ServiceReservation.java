@@ -22,7 +22,7 @@ public class ServiceReservation {
     }
 
     public Reservation consulterReservetion(int id){
-        List<Reservation> reservations = consulterReservations("Select * fom Reservation where idreservetion = "+id+";");
+        List<Reservation> reservations = consulterReservations("Select * fom Reservation where id_reservetion = "+id+";");
         if(reservations.size()<1){
             return null;
         }
@@ -83,6 +83,24 @@ public class ServiceReservation {
         }catch(Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    public Reservation insererReservation (Reservation resa){
+        String rq = "insert into Reservation (date_reservation, id_adherent, id_oeuvrevente, statut) values ("+
+                "'"+ FonctionsUtiles.DateToString(resa.getDate(),"yyyy-MM-dd")+"',"+
+                resa.getAdherent().getIdAdherent()+","+
+                resa.getOeuvrevente().getIdOeuvrevente()+","+
+                "'confirme'";
+
+        DialogueBd unDialogueBd = DialogueBd.getInstance();
+        try{
+            unDialogueBd.insertionBD(rq);
+        }catch(Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+        return resa;
     }
 
 
