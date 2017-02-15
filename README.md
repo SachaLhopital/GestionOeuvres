@@ -6,7 +6,7 @@ Projet J2E Tomcat
 * CRUD Adhérents -> service fini
 * CRUD Réservations -> service fini
 * CRUD Oeuvres -> service fini
-* CRUD Propriétaires 
+* CRUD Propriétaires -> service fini
 * Vérifier que la présentation est correcte visuellement
 
 
