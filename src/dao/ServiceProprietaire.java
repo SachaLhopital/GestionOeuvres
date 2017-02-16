@@ -11,12 +11,13 @@ import java.util.List;
  * Created by lafay on 08/02/2017.
  */
 public class ServiceProprietaire {
+
     public List<Proprietaire> consulterProprietaires(){
-        return consulterProprietaires("Select * fom Proprietaire;");
+        return consulterProprietaires("Select * from Proprietaire;");
     }
 
     public Proprietaire consulterProprietaire(int id){
-        List<Proprietaire> proprietaires = consulterProprietaires("Select * fom Proprietaire where idproprietaire = "+id+";");
+        List<Proprietaire> proprietaires = consulterProprietaires("Select * from Proprietaire where id_proprietaire = "+id+";");
         if(proprietaires.size()<1){
             return null;
         }
@@ -30,21 +31,22 @@ public class ServiceProprietaire {
 
         int index = 0;
         try {
+
             DialogueBd unDialogueBd = DialogueBd.getInstance();
-            rs = DialogueBd.lecture(mysql);
+            rs = unDialogueBd.lecture(mysql);
+
             while (index < rs.size()) {
-                // On cr�e un stage
+
                 Proprietaire unP = new Proprietaire();
-                // il faut redecouper la liste pour retrouver les lignes
+
                 unP.setIdProprietaire(Integer.parseInt(rs.get(index + 0).toString()));
                 unP.setNomProprietaire(rs.get(index + 1).toString());
                 unP.setPrenomProprietaire(rs.get(index + 2).toString());
-                // On incr�mente tous les 3 champs
+
                 index = index + 3;
                 mesProprietaires.add(unP);
             }
 
-            return mesProprietaires;
         } catch (Exception exc) {
             try {
                 throw new MonException(exc.getMessage(), "systeme");
@@ -52,7 +54,6 @@ public class ServiceProprietaire {
                 e.printStackTrace();
             }
         }
-
         return mesProprietaires;
     }
 
@@ -91,9 +92,10 @@ public class ServiceProprietaire {
     }
 
     public Proprietaire modifierProprietaire(Proprietaire prop){
-        String rq = "update proprietaire set"+
+
+        String rq = "update proprietaire set "+
                 "nom_proprietaire='"+prop.getNomProprietaire()+"',"+
-                "prenom_proprietaire='"+prop.getNomProprietaire()+"'"+
+                "prenom_proprietaire='"+prop.getPrenomProprietaire()+"'"+
                 " where id_proprietaire="+prop.getIdProprietaire();
 
         DialogueBd unDialogueBd = DialogueBd.getInstance();

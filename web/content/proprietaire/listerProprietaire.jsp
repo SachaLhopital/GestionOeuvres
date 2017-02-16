@@ -1,5 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@include file="../commun/header.jsp"%>
 
 <div class="row">
@@ -37,7 +35,7 @@
                         <td>${item.nomProprietaire}</td>
                         <td>${item.prenomProprietaire}</td>
                         <td>
-                            <a href="#">
+                            <a href="ControleurProprietaire?action=detailProprietaire&id=${item.idProprietaire}">
                                 <button type="button" class="btn btn-info" aria-label="Left Align">
                                     <span class="fa fa-pencil" aria-hidden="true"></span>
                                 </button>
