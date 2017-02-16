@@ -1,5 +1,11 @@
 <%@include file="../commun/header.jsp"%>
 
+<div class="row">
+    <div cla
+</div>ss="col-sm-2">
+<a href="ControleurAdherent?action=listerAdherent"><span class="fa fa-users fa-2x"></span></a>
+</div>
+<br/>
 <div class="panel panel-primary">
 
     <div class="panel-heading">Ajout d'un adh&eacute;rent</div>

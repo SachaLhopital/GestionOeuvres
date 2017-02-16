@@ -31,7 +31,14 @@
     <div class="row">
         <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
             <ul class="nav nav-pills nav-stacked">
-                <li class="active">
+                <li>
+                    <a href="/index.jsp">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        &nbsp;
+                        <span class="hidden-xs hidden-sm">Accueil</span>
+                    </a>
+                </li>
+                <li>
                     <a href="ControleurAdherent?action=listerAdherent">
                         <i class="fa fa-users" aria-hidden="true"></i>
                         &nbsp;
@@ -39,7 +46,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href=ControleurProprietaire?action=listerProprietaire">
                         <i class="fa fa-tasks" aria-hidden="true"></i>
                         &nbsp;
                         <span class="hidden-xs hidden-sm">Propri&eacute;taires</span>
@@ -47,7 +54,7 @@
                 </li>
                 <li>
                     <a href="#">
-                        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                        <i class="fa fa-picture-o" aria-hidden="true"></i>
                         &nbsp;
                         <span class="hidden-xs hidden-sm">Oeuvres</span>
                     </a>

@@ -71,7 +71,6 @@ public class ControleurAdherent extends HttpServlet{
         String destinationPage = ERROR_PAGE;
 
         switch(actionName) {
-
             case LISTER_ADHERENT :
                 try {
 
@@ -110,46 +109,6 @@ public class ControleurAdherent extends HttpServlet{
                 String messageErreur = "[" + actionName + "] n'est pas une action valide.";
                 request.setAttribute(ERROR_KEY, messageErreur);
         }
-
-        /* --- VéRIFIER QUE LE SWITCH FONCTIONNE BIEN, et supprimer cette partie --- */
-        /*// execute l'action
-        if (LISTER_RADHERENT.equals(actionName)) {
-            try {
-
-                ServiceAdherent unService = new ServiceAdherent();
-                request.setAttribute("mesAdherents", unService.consulterListeAdherents());
-
-            } catch (MonException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            destinationPage = "/content/adherent/listerAdherent.jsp";
-        }
-
-        if (AJOUTER_ADHERENT.equals(actionName)) {
-
-            destinationPage = "/content/adherent/ajouterAdherent.jsp";
-        } else if (INSERER_ADHERENT.equals(actionName)) {
-            try {
-                Adherent unAdherent = new Adherent();
-                unAdherent.setNomAdherent(request.getParameter("txtnom"));
-                unAdherent.setPrenomAdherent(request.getParameter("txtprenom"));
-                unAdherent.setVilleAdherent(request.getParameter("txtville"));
-                ServiceAdherent unService = new ServiceAdherent();
-                unService.insertAdherent(unAdherent);
-
-            } catch (MonException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            destinationPage = "/index.jsp";
-        }*/
-
-        /*else {
-            String messageErreur = "[" + actionName + "] n'est pas une action valide.";
-            request.setAttribute(ERROR_KEY, messageErreur);
-        }*/
 
         // Redirection vers la page jsp appropriee
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(destinationPage);
