@@ -23,6 +23,8 @@ public class ControleurAdherent extends HttpServlet{
     private static final String LISTER_ADHERENT = "listerAdherent";
     private static final String AJOUTER_ADHERENT = "ajouterAdherent";
     private static final String INSERER_ADHERENT = "insererAdherent";
+    private static final String SUPPRIMER_ADHERENT = "supprimerAdherent";
+    private static final String MODIFIER_ADHERNET = "modifierAdherent";
 
     private static final String ERROR_KEY = "messageErreur";
     private static final String ERROR_PAGE = "/erreur.jsp";
