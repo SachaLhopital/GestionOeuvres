@@ -34,7 +34,7 @@ public class ServiceAdherent {
     // Fabrique et renvoie un objet adh�rent contenant le r�sultat de la requ�te
     // BDD
     public Adherent consulterAdherent(int numero) throws MonException {
-        String mysql = "select * from adherent where numero_adherent=" + numero;
+        String mysql = "select * from adherent where id_adherent=" + numero;
         List<Adherent> mesAdh = consulterListeAdherents(mysql);
         if (mesAdh.isEmpty())
             return null;
@@ -58,7 +58,7 @@ public class ServiceAdherent {
         int index = 0;
         try {
             DialogueBd unDialogueBd = DialogueBd.getInstance();
-            rs = DialogueBd.lecture(mysql);
+            rs = unDialogueBd.lecture(mysql);
             while (index < rs.size()) {
                 // On cr�e un stage
                 Adherent unA = new Adherent();
@@ -93,7 +93,7 @@ public class ServiceAdherent {
     }
 
     public Adherent modifierAdherent(Adherent adherent){
-        String rq = "update adherent set nom_adherent="+adherent.getNomAdherent()+"'"+
+        String rq = "update adherent set nom_adherent='"+adherent.getNomAdherent()+"'"+
                 ", prenom_adherent ='"+adherent.getPrenomAdherent()+"'"+
                 ", ville_adherent ='"+adherent.getVilleAdherent()+"'"+
                 " where id_adherent="+adherent.getIdAdherent();

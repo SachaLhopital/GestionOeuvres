@@ -40,7 +40,7 @@
                                     <span class="fa fa-pencil" aria-hidden="true"></span>
                                 </button>
                             </a>
-                            <a href="#">
+                            <a href="ControleurProprietaire?action=deleteProprietaire&id=${item.idProprietaire}">
                                 <button type="button" class="btn btn-danger" aria-label="Left Align">
                                     <span class="fa fa-user-times" aria-hidden="true"></span>
                                 </button>

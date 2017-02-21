@@ -10,21 +10,22 @@
 
     <div class="panel-heading">Ajout d'un adh&eacute;rent</div>
 
-    <form name='identification' method="post" action="ControleurAdherent?action=insererAdherent" onsubmit="return teste()">
+    <form name='identification' method="post" action="${actionSubmit}" onsubmit="return teste()">
+        <input type="hidden" name="txtId" value="${adherent.idAdherent}">
         <div class="panel-body">
             <div class="form-group">
                 <label class="col-sm-3">Nom de l'adherent :</label>
-                <input type="text" name="txtnom" value="" id ="nom">
+                <input type="text" name="txtnom" value="${adherent.nomAdherent}" id ="nom">
             </div>
 
             <div class="form-group">
                 <label class="col-sm-3">Prenom de l'adherent : </label>
-                <input type="text" name="txtprenom"  id ="prenom">
+                <input type="text" name="txtprenom" value="${adherent.prenomAdherent}" id ="prenom">
             </div>
 
             <div class="form-group">
                 <label class="col-sm-3">Ville de l'adherent : </label>
-                <input type="text" name="txtville" id ="ville">
+                <input type="text" name="txtville" value="${adherent.villeAdherent}" id ="ville">
             </div>
         </div>
 

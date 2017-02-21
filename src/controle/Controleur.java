@@ -76,7 +76,7 @@ public class Controleur extends HttpServlet {
 
 		if (AJOUTER_ADHERENT.equals(actionName)) {
 
-			destinationPage = "/content/adherent/ajouterAdherent.jsp";
+			destinationPage = "/content/adherent/formAdherent.jsp";
 		} else if (INSERER_ADHERENT.equals(actionName)) {
 			try {
 				Adherent unAdherent = new Adherent();
