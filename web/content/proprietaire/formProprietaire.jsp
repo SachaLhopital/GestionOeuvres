@@ -8,7 +8,7 @@
 <br/><br/>
 <div class="panel panel-primary">
 
-    <div class="panel-heading">Ajout d'un propri&eacute;taire</div>
+    <div class="panel-heading">Formulaire propri&eacute;taire</div>
 
     <form name='identification' method="post" action="${actionSubmit}" onsubmit="return teste()">
         <input type="hidden" name="txtId" value="${proprietaire.idProprietaire}">

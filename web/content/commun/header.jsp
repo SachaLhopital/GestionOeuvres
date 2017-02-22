@@ -56,14 +56,14 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="ControleurOeuvre?action=listerOeuvre">
                         <i class="fa fa-picture-o" aria-hidden="true"></i>
                         &nbsp;
                         <span class="hidden-xs hidden-sm">Oeuvres</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="ControleurReservation?action=listerReservation">
                         <i class="fa fa-bookmark-o" aria-hidden="true"></i>
                         &nbsp;
                         <span class="hidden-xs hidden-sm">R&eacute;servations</span>

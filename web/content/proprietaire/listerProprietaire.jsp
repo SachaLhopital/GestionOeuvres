@@ -35,6 +35,16 @@
                         <td>${item.nomProprietaire}</td>
                         <td>${item.prenomProprietaire}</td>
                         <td>
+                            <a href="ControleurOeuvre?action=ajouterOeuvre&type=pret&id=${item.idProprietaire}">
+                                <button type="button" class="btn btn-primary" aria-label="Left Align">
+                                    <span class="fa fa-plus" aria-hidden="true">&nbsp;Oeuvre de pr&ecirc;t</span>
+                                </button>
+                            </a>
+                            <a href="ControleurOeuvre?action=ajouterOeuvre&type=vente&id=${item.idProprietaire}">
+                                <button type="button" class="btn btn-primary" aria-label="Left Align">
+                                    <span class="fa fa-plus" aria-hidden="true">&nbsp;Oeuvre de vente</span>
+                                </button>
+                            </a>
                             <a href="ControleurProprietaire?action=detailProprietaire&id=${item.idProprietaire}">
                                 <button type="button" class="btn btn-info" aria-label="Left Align">
                                     <span class="fa fa-pencil" aria-hidden="true"></span>

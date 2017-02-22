@@ -8,7 +8,7 @@
 <br/>
 <div class="panel panel-primary">
 
-    <div class="panel-heading">Ajout d'un adh&eacute;rent</div>
+    <div class="panel-heading">Formulaire adh&eacute;rent</div>
 
     <form name='identification' method="post" action="${actionSubmit}" onsubmit="return teste()">
         <input type="hidden" name="txtId" value="${adherent.idAdherent}">

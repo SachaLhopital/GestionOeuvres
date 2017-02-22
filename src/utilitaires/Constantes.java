@@ -14,6 +14,7 @@ public class Constantes {
     public static final String ERROR_MISSING_ARGS = "Informations manquantes";
     public static final String ERROR_UPDATING = "Impossible de mettre à jour";
     public static final String ERROR_DELETING = "Erreur lors de la suppression";
+    public static final String TYPE_MISSING = "Type manquant";
 
     public static final String ERROR_LISTING = "Impossible de récupérer la liste des %ss";
     public static final String ERROR_INSERT = "Impossible d'insérer un %s";

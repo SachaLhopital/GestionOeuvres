@@ -52,7 +52,7 @@ public class ServiceOeuvre {
     public Oeuvrepret insertOeuvrepret(Oeuvrepret oeuvre){
         String rq = "insert into oeuvrepret (id_proprietaire, titre_oeuvrepret) values ("+
                 oeuvre.getProprietaire().getIdProprietaire()+","+
-                "'"+oeuvre.getTitreOeuvrepret()+"'";
+                "'"+oeuvre.getTitreOeuvrepret()+"')";
 
         DialogueBd unDialogueBd = DialogueBd.getInstance();
         try{
@@ -128,8 +128,7 @@ public class ServiceOeuvre {
 
         int index = 0;
         try {
-            DialogueBd unDialogueBd = DialogueBd.getInstance();
-            rs = DialogueBd.lecture(rq);
+            rs = DialogueBd.getInstance().lecture(rq);
             while (index < rs.size()) {
                 // On cr�e un stage
                 Oeuvrevente uneO = new Oeuvrevente();
@@ -137,14 +136,12 @@ public class ServiceOeuvre {
                 uneO.setIdOeuvrevente(Integer.parseInt(rs.get(index + 0).toString()));
                 uneO.setTitreOeuvrevente(rs.get(index + 1).toString());
                 uneO.setEtatOeuvrevente(rs.get(index + 2).toString());
-                uneO.setPrixOeuvrevente(Integer.parseInt(rs.get(index + 3).toString()));
+                uneO.setPrixOeuvrevente(Float.parseFloat(rs.get(index + 3).toString()));
                 uneO.setProprietaire(new ServiceProprietaire().consulterProprietaire(Integer.parseInt(rs.get(index + 4).toString())));
                 // On incr�mente tous les 3 champs
                 index = index + 5;
                 mesOeuvrevente.add(uneO);
             }
-
-            return mesOeuvrevente;
         } catch (Exception exc) {
             try {
                 throw new MonException(exc.getMessage(), "systeme");
@@ -163,8 +160,7 @@ public class ServiceOeuvre {
 
         int index = 0;
         try {
-            DialogueBd unDialogueBd = DialogueBd.getInstance();
-            rs = DialogueBd.lecture(rq);
+            rs = DialogueBd.getInstance().lecture(rq);
             while (index < rs.size()) {
                 // il faut redecouper la liste pour retrouver les lignes
                 uneO.setIdOeuvrevente(Integer.parseInt(rs.get(index + 0).toString()));
