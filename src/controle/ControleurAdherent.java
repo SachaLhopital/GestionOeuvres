@@ -15,7 +15,7 @@ import java.io.IOException;
 @WebServlet ("/ControleurAdherent")
 public class ControleurAdherent extends HttpServlet{
 
-    private static final String ADHERENT = "adhérent";
+    public static final String ADHERENT = "adhérent";
     private static final String LISTER_ADHERENT = "listerAdherent";
     private static final String AJOUTER_ADHERENT = "ajouterAdherent";
     private static final String INSERER_ADHERENT = "insererAdherent";

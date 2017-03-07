@@ -4,6 +4,7 @@ import meserreurs.MonException;
 import metier.Oeuvrepret;
 import metier.Oeuvrevente;
 import metier.Proprietaire;
+import metier.Reservation;
 import persistance.DialogueBd;
 
 import java.util.ArrayList;
@@ -142,56 +143,18 @@ public class ServiceOeuvre {
 
     //region oeuvrevente
     public List<Oeuvrevente> ConsulterListeOeuvrevente() throws MonException {
-        List<Object> rs;
-        List<Oeuvrevente> mesOeuvrevente = new ArrayList<Oeuvrevente>();
-        String rq = "Select * from OeuvreVente;";
+        return buildOeuvresVentesFromRQ("Select * from OeuvreVente;");
+    }
 
-        int index = 0;
-        try {
-            rs = DialogueBd.getInstance().lecture(rq);
-            while (index < rs.size()) {
-                // On cr�e un stage
-                Oeuvrevente uneO = new Oeuvrevente();
-                // il faut redecouper la liste pour retrouver les lignes
-                uneO.setIdOeuvrevente(Integer.parseInt(rs.get(index + 0).toString()));
-                uneO.setTitreOeuvrevente(rs.get(index + 1).toString());
-                uneO.setEtatOeuvrevente(rs.get(index + 2).toString());
-                uneO.setPrixOeuvrevente(Float.parseFloat(rs.get(index + 3).toString()));
-                uneO.setProprietaire(new ServiceProprietaire().consulterProprietaire(Integer.parseInt(rs.get(index + 4).toString())));
-                // On incr�mente tous les 3 champs
-                index = index + 5;
-                mesOeuvrevente.add(uneO);
-            }
-        } catch (Exception exc) {
-            throw new MonException(exc.getMessage(), "systeme");
-        }
-
-        return mesOeuvrevente;
+    public List<Oeuvrevente> GetListeOeuvreventeLibres() throws MonException {
+        return buildOeuvresVentesFromRQ("Select * " +
+                "from OeuvreVente " +
+                "where etat_oeuvrevente <> 'R'" +
+                "ORDER BY titre_oeuvrevente;");
     }
 
     public Oeuvrevente consulterOeuvreVente(int id) throws MonException {
-        Oeuvrevente uneO = new Oeuvrevente();
-        String rq = "Select * from oeuvreVente where id_oeuvrevente ="+id;
-        List<Object> rs;
-
-        int index = 0;
-        try {
-            rs = DialogueBd.getInstance().lecture(rq);
-            while (index < rs.size()) {
-                // il faut redecouper la liste pour retrouver les lignes
-                uneO.setIdOeuvrevente(Integer.parseInt(rs.get(index + 0).toString()));
-                uneO.setTitreOeuvrevente(rs.get(index + 1).toString());
-                uneO.setEtatOeuvrevente(rs.get(index + 2).toString());
-                uneO.setPrixOeuvrevente(Float.parseFloat(rs.get(index + 3).toString()));
-                uneO.setProprietaire(new ServiceProprietaire().consulterProprietaire(Integer.parseInt(rs.get(index + 4).toString())));
-                // On incr�mente tous les 3 champs
-                index = index + 5;
-            }
-        } catch (Exception exc) {
-            exc.printStackTrace();
-            throw new MonException(exc.getMessage(), "systeme");
-        }
-        return uneO;
+        return buildOeuvresVentesFromRQ("Select * from oeuvreVente where id_oeuvrevente ="+id).get(0);
     }
 
     public Oeuvrevente insertOeuvrevente (Oeuvrevente oeuvre) throws MonException{
@@ -236,7 +199,7 @@ public class ServiceOeuvre {
                 "id_proprietaire="+oeuvre.getProprietaire().getIdProprietaire()+","+
                 "prix_oeuvrevente="+oeuvre.getPrixOeuvrevente()+","+
                 "titre_oeuvrevente='"+oeuvre.getTitreOeuvrevente()+"'"+
-                " where id_oeuvrevente="+oeuvre.getIdOeuvrevente();
+                " where id_oeuvrevente='"+oeuvre.getIdOeuvrevente() +"';";
 
         try {
             DialogueBd.getInstance().execute(rq);
@@ -267,6 +230,31 @@ public class ServiceOeuvre {
             e.printStackTrace();
             throw new MonException(e.getMessage(), "model");
         }
+    }
+
+    private List<Oeuvrevente> buildOeuvresVentesFromRQ(String rq) throws MonException {
+        int index = 0;
+        List<Object> rs;
+        List<Oeuvrevente> mesOeuvrevente = new ArrayList<Oeuvrevente>();
+        try {
+            rs = DialogueBd.getInstance().lecture(rq);
+            while (index < rs.size()) {
+                // On cr�e un stage
+                Oeuvrevente uneO = new Oeuvrevente();
+                // il faut redecouper la liste pour retrouver les lignes
+                uneO.setIdOeuvrevente(Integer.parseInt(rs.get(index + 0).toString()));
+                uneO.setTitreOeuvrevente(rs.get(index + 1).toString());
+                uneO.setEtatOeuvrevente(rs.get(index + 2).toString());
+                uneO.setPrixOeuvrevente(Float.parseFloat(rs.get(index + 3).toString()));
+                uneO.setProprietaire(new ServiceProprietaire().consulterProprietaire(Integer.parseInt(rs.get(index + 4).toString())));
+                // On incr�mente tous les 3 champs
+                index = index + 5;
+                mesOeuvrevente.add(uneO);
+            }
+        } catch (Exception exc) {
+            throw new MonException(exc.getMessage(), "systeme");
+        }
+        return mesOeuvrevente;
     }
     //endregion
 }

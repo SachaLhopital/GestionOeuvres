@@ -34,7 +34,7 @@
                             </a>
                             <a href="ControleurOeuvre?action=deleteOeuvrePret&id=${item.idOeuvrepret}">
                                 <button type="button" class="btn btn-danger" aria-label="Left Align">
-                                    <span class="fa fa-user-times" aria-hidden="true"></span>
+                                    <span class="fa fa-times" aria-hidden="true"></span>
                                 </button>
                             </a>
                         </td>
@@ -73,7 +73,7 @@
                             </a>
                             <a href="ControleurOeuvre?action=deleteOeuvreVente&id=${item.idOeuvrevente}">
                                 <button type="button" class="btn btn-danger" aria-label="Left Align">
-                                    <span class="fa fa-user-times" aria-hidden="true"></span>
+                                    <span class="fa fa-times" aria-hidden="true"></span>
                                 </button>
                             </a>
                         </td>

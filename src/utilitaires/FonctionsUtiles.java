@@ -6,7 +6,7 @@ import java.util.*;
 public class FonctionsUtiles {
 
 	// /
-	// / Conversion d'une date en chaîne
+	// / Conversion d'une date en chaï¿½ne
 	// /
 	public static String DateToString(Date dt, String modeleEntree)  {
 	
@@ -17,19 +17,16 @@ public class FonctionsUtiles {
 		String retour = "";
 	    retour += String.valueOf(myC.get(Calendar.YEAR))+ "-";
 		retour +=String.valueOf(myC.get(Calendar.MONTH)+1) + "-";
-		retour +=String.valueOf( myC.get(Calendar.DAY_OF_MONTH)) + " ";
-		retour +=String.valueOf(myC.get(Calendar.HOUR_OF_DAY))+ ":";
-		retour +=String.valueOf( myC.get(Calendar.MINUTE)) + ":";
-		retour += String.valueOf(myC.get(Calendar.SECOND));
+		retour +=String.valueOf( myC.get(Calendar.DAY_OF_MONTH));
 		return retour;
 	}
 
 	public static String conversionDateenChaine(Date unedate, String modele)
-	// le modèlet est une combinaison de MM dd yyyy avec / ou –
+	// le modï¿½let est une combinaison de MM dd yyyy avec / ou ï¿½
 	// exemple dd/MM/yyyy
 			throws Exception {
 		String datesortie = "";
-		// on définit un format de sortie
+		// on dï¿½finit un format de sortie
 		SimpleDateFormat defFormat = new SimpleDateFormat(modele);
 		datesortie = defFormat.format(unedate);
 		return datesortie;
@@ -39,7 +36,7 @@ public class FonctionsUtiles {
 	public static Date conversionChaineenDate(String unedate, String unformat)
 			throws Exception {
 		Date datesortie;
-		// on définit un format de sortie
+		// on dï¿½finit un format de sortie
 		SimpleDateFormat defFormat = new SimpleDateFormat(unformat);
 		datesortie = defFormat.parse(unedate);
 		return datesortie;

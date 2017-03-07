@@ -39,6 +39,11 @@
                         <td>${item.prenomAdherent}</td>
                         <td>${item.villeAdherent}</td>
                         <td>
+                            <a href="ControleurReservation?action=ajouterReservation&id=${item.idAdherent}">
+                                <button type="button" class="btn btn-info" aria-label="Left Align">
+                                    <span class="fa fa-plus" aria-hidden="true">&nbsp;Ajouter une R&eacute;servation</span>
+                                </button>
+                            </a>
                             <a href="ControleurAdherent?action=detailAdherent&id=${item.idAdherent}">
                                 <button type="button" class="btn btn-info" aria-label="Left Align">
                                     <span class="fa fa-pencil" aria-hidden="true"></span>

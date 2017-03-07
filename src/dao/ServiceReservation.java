@@ -2,12 +2,12 @@ package dao;
 
 import meserreurs.MonException;
 import metier.Adherent;
-import metier.Proprietaire;
 import metier.Reservation;
 import persistance.DialogueBd;
+import utilitaires.Constantes;
 import utilitaires.FonctionsUtiles;
 
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,21 +17,32 @@ import java.util.List;
  */
 public class ServiceReservation {
 
-    public List<Reservation> consulterReserevations(){
-        return consulterReservations("Select * fom Reservation;");
+    public List<Reservation> consulterReservations() throws MonException {
+        return consulterReservations("Select * from Reservation;");
     }
 
-    public Reservation consulterReservetion(int id){
-        List<Reservation> reservations = consulterReservations("Select * fom Reservation where id_reservetion = "+id+";");
-        if(reservations.size()<1){
-            return null;
-        }
-        return reservations.get(0);
+    public Reservation getReservationByDateAndOeuvre(String date, int idOeuvre) throws MonException {
+        try {
+            List<Reservation> reservations = consulterReservations(
+                                            "Select * " +
+                                            "from Reservation " +
+                                            "where id_oeuvrevente = " + idOeuvre +
+                                            " and date_reservation = '" + date + "';");
+            if (reservations.size() < 1) {
+                throw new MonException(
+                        "Aucune réservation trouvée pour cette date et cette oeuvre",
+                        "service");
+            }
+            return reservations.get(0);
+        }catch(MonException e) {
+            throw new MonException(e.getMessage(), "erreur interne");
+        }/*catch(ParseException e) {
+            throw new MonException(e.getMessage(), "parsing d'une date");
+        }*/
     }
 
-    private List<Reservation> consulterReservations(String mysql){
+    private List<Reservation> consulterReservations(String mysql) throws MonException {
         List<Reservation> mesReservations = new ArrayList<Reservation>();
-
         List<Object> rs;
 
         int index = 0;
@@ -42,36 +53,34 @@ public class ServiceReservation {
                 // On cr�e un stage
                 Reservation uneR = new Reservation();
                 // il faut redecouper la liste pour retrouver les lignes
-                uneR.setDate(FonctionsUtiles.conversionChaineenDate(rs.get(index).toString(),"yyyy-MM-dd"));
+                uneR.setOeuvrevente(new ServiceOeuvre().consulterOeuvreVente(Integer.parseInt(rs.get(index).toString())));
                 uneR.setAdherent(new ServiceAdherent().consulterAdherent(Integer.parseInt(rs.get(index+1).toString())));
-                uneR.setOeuvrevente(new ServiceOeuvre().consulterOeuvreVente(Integer.parseInt(rs.get(index+2).toString())));
-                index = index + 2;
+                uneR.setDate(FonctionsUtiles.conversionChaineenDate(rs.get(index+2).toString(),"yyyy-MM-dd"));
+                index = index + 4;//3 elements + statut non pris en compte dans l'affichage
                 mesReservations.add(uneR);
             }
-
             return mesReservations;
         } catch (Exception exc) {
-            try {
-                throw new MonException(exc.getMessage(), "systeme");
-            } catch (MonException e) {
-                e.printStackTrace();
-            }
+            throw new MonException(exc.getMessage(), "systeme");
         }
-
-        return mesReservations;
     }
 
-    public void supprimerReservation(Reservation resa){
-        String rq = "delete from reservation where idoeuvrevente="+resa.getOeuvrevente().getIdOeuvrevente()+
-                " and date_reservation="+FonctionsUtiles.DateToString(resa.getDate(),"yyyy-MM-dd");
-
-        DialogueBd unDialogueBd = DialogueBd.getInstance();
+    public void supprimerReservation(Reservation resa) throws MonException {
         try{
+            String rq = "delete from reservation where id_oeuvrevente="+resa.getOeuvrevente().getIdOeuvrevente()+
+                    " and date_reservation='"+FonctionsUtiles.DateToString(resa.getDate(),"yyyy-MM-dd") + "'";
+
+            DialogueBd unDialogueBd = DialogueBd.getInstance();
             unDialogueBd.execute(rq);
+
+            //L'oeuvre redeviens disponible
+            resa.getOeuvrevente().setEtatOeuvrevente(Constantes.EtatsOeuvre.L.toString());
+            new ServiceOeuvre().modifierOeuvrevente(resa.getOeuvrevente());
+
         }catch(Exception ex){
             ex.printStackTrace();
+            throw new MonException(ex.getMessage(), "erreur suppression reservation");
         }
-
     }
 
     public void supprimerReservation(Adherent adherent){
@@ -85,21 +94,24 @@ public class ServiceReservation {
         }
     }
 
-    public Reservation insererReservation (Reservation resa){
-        String rq = "insert into Reservation (date_reservation, id_adherent, id_oeuvrevente, statut) values ("+
-                "'"+ FonctionsUtiles.DateToString(resa.getDate(),"yyyy-MM-dd")+"',"+
-                resa.getAdherent().getIdAdherent()+","+
-                resa.getOeuvrevente().getIdOeuvrevente()+","+
-                "'confirme'";
-
-        DialogueBd unDialogueBd = DialogueBd.getInstance();
+    public Reservation insererReservation (Reservation resa) throws MonException {
         try{
-            unDialogueBd.insertionBD(rq);
+            String rq = "Insert into Reservation (date_reservation, id_adherent, id_oeuvrevente, statut) values ("+
+                    "'"+ FonctionsUtiles.DateToString(resa.getDate(),"yyyy-MM-dd")+"',"+
+                    resa.getAdherent().getIdAdherent()+","+
+                    resa.getOeuvrevente().getIdOeuvrevente()+","+
+                    "'confirme');";
+
+            DialogueBd.getInstance().insertionBD(rq);
+
+            //On change l'état de l'oeuvre de "libre" à "reservé"
+            resa.getOeuvrevente().setEtatOeuvrevente(Constantes.EtatsOeuvre.R.toString());
+            new ServiceOeuvre().modifierOeuvrevente(resa.getOeuvrevente());
+
         }catch(Exception ex) {
             ex.printStackTrace();
-            return null;
+            throw new MonException(ex.getMessage(), "insertion reservation");
         }
-
         return resa;
     }
 

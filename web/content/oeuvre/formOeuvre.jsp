@@ -62,6 +62,6 @@
 </div>
 
 <SCRIPT language="Javascript" type="text/javascript">
-    <script type="text/javascript" src="js/foncControle.js"></script>
+<script type="text/javascript" src="js/foncControle.js"></script>
 
 <%@include file="/content/commun/footer.jsp"%>
