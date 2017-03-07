@@ -4,8 +4,6 @@ Projet J2E Tomcat
 
 ## A Faire
 
-* CRUD Oeuvres (en cours par SALH)
-* Vue details (Adhérent, Prop)
 * CRUD Réservations -> service fini
 * Vérifier que la présentation est correcte visuellement
 
@@ -13,6 +11,7 @@ Projet J2E Tomcat
 
 * CRUD Adhérents
 * CRUD Propriétaires
+* CRUD Oeuvres
 
 ### En + :
 

@@ -16,7 +16,7 @@ public class ServiceOeuvre {
 
     //region oeuvre pret
 
-    public List<Oeuvrepret> ConsulterListeOeuvrepret(){
+    public List<Oeuvrepret> ConsulterListeOeuvrepret() throws MonException {
         List<Object> rs;
         List<Oeuvrepret> mesOeuvrepret = new ArrayList<Oeuvrepret>();
         String rq = "Select * from OeuvrePret;";
@@ -36,20 +36,38 @@ public class ServiceOeuvre {
                 index = index + 3;
                 mesOeuvrepret.add(uneO);
             }
-
-            return mesOeuvrepret;
         } catch (Exception exc) {
-            try {
-                throw new MonException(exc.getMessage(), "systeme");
-            } catch (MonException e) {
-                e.printStackTrace();
-            }
+            throw new MonException(exc.getMessage(), "systeme");
         }
-
         return mesOeuvrepret;
     }
 
-    public Oeuvrepret insertOeuvrepret(Oeuvrepret oeuvre){
+    public Oeuvrepret consulterOeuvrePret(int id) throws MonException {
+        Oeuvrepret uneO = new Oeuvrepret();
+        String rq = "Select * from oeuvrePret where id_oeuvrepret ="+id;
+        List<Object> rs;
+
+        int index = 0;
+        try {
+            rs = DialogueBd.getInstance().lecture(rq);
+            while (index < rs.size()) {
+
+                // il faut redecouper la liste pour retrouver les lignes
+                uneO.setIdOeuvrepret(Integer.parseInt(rs.get(index + 0).toString()));
+                uneO.setTitreOeuvrepret(rs.get(index + 1).toString());
+                uneO.setProprietaire(
+                        new ServiceProprietaire().consulterProprietaire(
+                                Integer.parseInt(rs.get(index + 2).toString())));
+                //incrémentation
+                index = index + 3;
+            }
+        } catch (Exception exc) {
+            throw new MonException(exc.getMessage(), "model");
+        }
+        return uneO;
+    }
+
+    public Oeuvrepret insertOeuvrepret(Oeuvrepret oeuvre) throws MonException {
         String rq = "insert into oeuvrepret (id_proprietaire, titre_oeuvrepret) values ("+
                 oeuvre.getProprietaire().getIdProprietaire()+","+
                 "'"+oeuvre.getTitreOeuvrepret()+"')";
@@ -59,7 +77,7 @@ public class ServiceOeuvre {
             unDialogueBd.insertionBD(rq);
         }catch(Exception ex){
             ex.printStackTrace();
-            return null;
+            throw new MonException(ex.getMessage(), "model");
         }
 
         //recuperation de l'ID
@@ -71,11 +89,11 @@ public class ServiceOeuvre {
             rs = DialogueBd.lecture(rq);
         }catch (Exception ex){
             ex.printStackTrace();
-            return null;
+            throw new MonException(ex.getMessage(), "model");
         }
 
         if(rs.size()<=0){
-            return null;
+            throw new MonException("Aucun element dans la table oeuvre", "model");
         }
 
         oeuvre.setIdOeuvrepret(Integer.parseInt(rs.get(0).toString()));
@@ -83,27 +101,29 @@ public class ServiceOeuvre {
         return oeuvre;
     }
 
-    public void supprimerOeuvrepret (Oeuvrepret oeuvre){
+    public void supprimerOeuvrepret (Oeuvrepret oeuvre) throws MonException {
         String rq = "delete from oeuvrepret where id_oeuvrepret ="+oeuvre.getIdOeuvrepret();
 
         try {
             DialogueBd.getInstance().execute(rq);
         } catch (MonException e) {
             e.printStackTrace();
+            throw new MonException(e.getMessage(), "model");
         }
     }
 
-    public void supprimerOeuvrepret(Proprietaire prop){
+    public void supprimerOeuvrepret(Proprietaire prop) throws MonException {
         String rq = "delete from oeuvrepret where id_proprietaire ="+prop.getIdProprietaire();
 
         try {
             DialogueBd.getInstance().execute(rq);
         } catch (MonException e) {
             e.printStackTrace();
+            throw new MonException(e.getMessage(), "model");
         }
     }
 
-    public Oeuvrepret modifierOeuvrepret(Oeuvrepret oeuvre){
+    public Oeuvrepret modifierOeuvrepret(Oeuvrepret oeuvre) throws MonException {
         String rq = "update oeuvrepret set "+
                 "id_proprietaire ="+oeuvre.getProprietaire().getIdProprietaire()+
                 ", titre_oeuvrepret='"+oeuvre.getTitreOeuvrepret()+"'"+
@@ -112,7 +132,7 @@ public class ServiceOeuvre {
             DialogueBd.getInstance().execute(rq);
         } catch (MonException e) {
             e.printStackTrace();
-            return null;
+            throw new MonException(e.getMessage(), "model");
         }
         return oeuvre;
     }
@@ -121,7 +141,7 @@ public class ServiceOeuvre {
 
 
     //region oeuvrevente
-    public List<Oeuvrevente> ConsulterListeOeuvrevente(){
+    public List<Oeuvrevente> ConsulterListeOeuvrevente() throws MonException {
         List<Object> rs;
         List<Oeuvrevente> mesOeuvrevente = new ArrayList<Oeuvrevente>();
         String rq = "Select * from OeuvreVente;";
@@ -143,19 +163,15 @@ public class ServiceOeuvre {
                 mesOeuvrevente.add(uneO);
             }
         } catch (Exception exc) {
-            try {
-                throw new MonException(exc.getMessage(), "systeme");
-            } catch (MonException e) {
-                e.printStackTrace();
-            }
+            throw new MonException(exc.getMessage(), "systeme");
         }
 
         return mesOeuvrevente;
     }
 
-    public Oeuvrevente consulterOeuvreVente(int id){
+    public Oeuvrevente consulterOeuvreVente(int id) throws MonException {
         Oeuvrevente uneO = new Oeuvrevente();
-        String rq = "Select * from oeuvreVente where idoeuvrevente ="+id;
+        String rq = "Select * from oeuvreVente where id_oeuvrevente ="+id;
         List<Object> rs;
 
         int index = 0;
@@ -166,37 +182,31 @@ public class ServiceOeuvre {
                 uneO.setIdOeuvrevente(Integer.parseInt(rs.get(index + 0).toString()));
                 uneO.setTitreOeuvrevente(rs.get(index + 1).toString());
                 uneO.setEtatOeuvrevente(rs.get(index + 2).toString());
-                uneO.setPrixOeuvrevente(Integer.parseInt(rs.get(index + 3).toString()));
+                uneO.setPrixOeuvrevente(Float.parseFloat(rs.get(index + 3).toString()));
                 uneO.setProprietaire(new ServiceProprietaire().consulterProprietaire(Integer.parseInt(rs.get(index + 4).toString())));
                 // On incr�mente tous les 3 champs
                 index = index + 5;
             }
-
-            return uneO;
         } catch (Exception exc) {
-            try {
-                throw new MonException(exc.getMessage(), "systeme");
-            } catch (MonException e) {
-                e.printStackTrace();
-            }
+            exc.printStackTrace();
+            throw new MonException(exc.getMessage(), "systeme");
         }
-
         return uneO;
     }
 
-    public Oeuvrevente insererOeuvrevente (Oeuvrevente oeuvre){
-        String rq = "inset into oeuvrevente (etat_oeuvrevente, id_proprietaire, prix_oeuvrevente, titre_oeuvrevente) Values ("+
+    public Oeuvrevente insertOeuvrevente (Oeuvrevente oeuvre) throws MonException{
+        String rq = "insert into oeuvrevente (etat_oeuvrevente, id_proprietaire, prix_oeuvrevente, titre_oeuvrevente) Values ("+
                 "'"+oeuvre.getEtatOeuvrevente()+"',"+
                 oeuvre.getProprietaire().getIdProprietaire()+","+
                 oeuvre.getPrixOeuvrevente()+","+
-                "'"+oeuvre.getTitreOeuvrevente()+"'";
+                "'"+oeuvre.getTitreOeuvrevente()+"')";
 
         DialogueBd unDialogueBd = DialogueBd.getInstance();
         try{
             unDialogueBd.insertionBD(rq);
         }catch(Exception ex){
             ex.printStackTrace();
-            return null;
+            throw new MonException(ex.getMessage(), "model");
         }
 
         //recuperation de l'ID
@@ -220,8 +230,8 @@ public class ServiceOeuvre {
         return oeuvre;
     }
 
-    public Oeuvrevente modifierOeuvrevente(Oeuvrevente oeuvre){
-        String rq = "Update oeuvrevente set"+
+    public Oeuvrevente modifierOeuvrevente(Oeuvrevente oeuvre) throws MonException {
+        String rq = "Update oeuvrevente set "+
                 "etat_oeuvrevente='"+oeuvre.getEtatOeuvrevente()+"',"+
                 "id_proprietaire="+oeuvre.getProprietaire().getIdProprietaire()+","+
                 "prix_oeuvrevente="+oeuvre.getPrixOeuvrevente()+","+
@@ -232,30 +242,30 @@ public class ServiceOeuvre {
             DialogueBd.getInstance().execute(rq);
         } catch (MonException e) {
             e.printStackTrace();
-            return null;
+            throw new MonException(e.getMessage(), "model");
         }
-
         return oeuvre;
-
     }
 
-    public void supprimerOeuvrevente (Oeuvrevente oeuvre){
+    public void supprimerOeuvrevente (Oeuvrevente oeuvre) throws MonException {
         String rq = "Delete from oeuvrevente where id_oeuvrevente ="+oeuvre.getIdOeuvrevente();
 
         try {
             DialogueBd.getInstance().execute(rq);
         } catch (MonException e) {
             e.printStackTrace();
+            throw new MonException(e.getMessage(), "model");
         }
     }
 
-    public void supprimerOeuvrevente(Proprietaire prop){
+    public void supprimerOeuvrevente(Proprietaire prop) throws MonException {
         String rq = "delete from oeuvrevente where id_proprietaire="+prop.getIdProprietaire();
 
         try {
             DialogueBd.getInstance().execute(rq);
         } catch (MonException e) {
             e.printStackTrace();
+            throw new MonException(e.getMessage(), "model");
         }
     }
     //endregion

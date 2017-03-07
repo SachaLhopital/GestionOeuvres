@@ -109,19 +109,23 @@ public class ServiceProprietaire {
         return prop;
     }
 
-    public void supprimerProprietaire (Proprietaire prop){
+    public void supprimerProprietaire (Proprietaire prop) throws MonException {
         String rq = "delete from proprietaire where id_proprietaire="+prop.getIdProprietaire();
 
         DialogueBd unDialogueBd = DialogueBd.getInstance();
-        try{
-            unDialogueBd.execute(rq);
-        }catch(Exception ex){
-            ex.printStackTrace();
-            return;
-        }
 
-        //suppression des oeuvres associées
-        new ServiceOeuvre().supprimerOeuvrepret(prop);
-        new ServiceOeuvre().supprimerOeuvrevente(prop);
+        try{
+
+            unDialogueBd.execute(rq);
+
+            //suppression des oeuvres associées
+            new ServiceOeuvre().supprimerOeuvrepret(prop);
+            new ServiceOeuvre().supprimerOeuvrevente(prop);
+
+        }catch(Exception ex){
+
+            ex.printStackTrace();
+            throw new MonException(ex.getMessage(), "model");
+        }
     }
 }

@@ -16,12 +16,14 @@
     <form name='identification' method="post" action="${actionSubmit}" onsubmit="return teste()">
 
         <input type="hidden" name="propId" value="${proprietaire.idProprietaire}">
-        <input type="hidden" name="oeuvreId" value="${oeuvre.idOeuvre} + ${type}">
         <input type="hidden" name="type" value="${type}">
 
         <div class="panel-body">
+
             <%-- PRET --%>
             <c:if test="${type == 'pret'}">
+                <input type="hidden" name="oeuvreId" value="${oeuvre.idOeuvrepret}">
+
                 <div class="form-group">
                     <label class="col-sm-3">Titre de l'oeuvre :</label>
                     <input type="text" name="txttitre" value="${oeuvre.titreOeuvrepret}" id ="titrepret">
@@ -30,15 +32,22 @@
 
             <%-- VENTE --%>
             <c:if test="${type == 'vente'}">
+                <input type="hidden" name="oeuvreId" value="${oeuvre.idOeuvrevente}">
+
                 <div class="form-group">
                     <label class="col-sm-3">Titre de l'oeuvre :</label>
                     <input type="text" name="txttitre" value="${oeuvre.titreOeuvrevente}" id ="titrevente">
                 </div>
+
                 <div class="form-group">
-                    todo : enum ?
                     <label class="col-sm-3">Etat de l'oeuvre : </label>
-                    <input type="text" name="txtetat" value="${oeuvre.etatOeuvreVente}" id ="oeuvre">
+                    <select name="txtetat">
+                        <c:forEach items="${enumValues}" var="etat">
+                            <option value="${etat}" ${oeuvre.etatOeuvrevente == etat ? 'selected' : ''}>&nbsp;${etat}</option>
+                        </c:forEach>
+                    </select>
                 </div>
+
                 <div class="form-group">
                     <label class="col-sm-3">Prix de l'oeuvre : </label>
                     <input type="text" name="txtprix" value="${oeuvre.prixOeuvrevente}" id ="prix">

@@ -2,7 +2,9 @@ package controle;
 
 import dao.ServiceOeuvre;
 import dao.ServiceProprietaire;
+import meserreurs.MonException;
 import metier.Oeuvrepret;
+import metier.Oeuvrevente;
 import metier.Proprietaire;
 import utilitaires.Constantes;
 
@@ -26,9 +28,11 @@ public class ControleurOeuvre extends HttpServlet {
     private static final String LISTER_OEUVRES = "listerOeuvre";
     private static final String AJOUTER_OEUVRES = "ajouterOeuvre";
     private static final String INSERER_OEUVRES = "insererOeuvre";
-    private static final String DETAIL_OEUVRES = "detailOeuvre";
     private static final String UPDATE_OEUVRES = "updateOeuvre";
-    private static final String DELETE_OEUVRES = "deleteOeuvre";
+    private static final String DELETE_OEUVRES_PRET = "deleteOeuvrePret";
+    private static final String DELETE_OEUVRES_VENTE = "deleteOeuvreVente";
+    private static final String DETAIL_OEUVRE_PRET = "detailOeuvrePret";
+    private static final String DETAIL_OEUVRE_VENTE = "detailOeuvreVente";
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -75,6 +79,7 @@ public class ControleurOeuvre extends HttpServlet {
                     request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_MISSING_ARGS);
                     break;
                 }
+                request.setAttribute("enumValues", Constantes.EtatsOeuvre.values());
                 request.setAttribute("type", request.getParameter("type"));
                 request.setAttribute("actionSubmit","ControleurOeuvre?action=insererOeuvre");
                 request.setAttribute(
@@ -91,18 +96,29 @@ public class ControleurOeuvre extends HttpServlet {
                 try {
                     if(PRET.equals(request.getParameter("type"))) {
                         Oeuvrepret oeuvre = new Oeuvrepret();
+
                         oeuvre.setTitreOeuvrepret(request.getParameter("txttitre"));
                         oeuvre.setProprietaire(
                                 serviceProprietaire.consulterProprietaire(
                                         Integer.parseInt(request.getParameter("propId"))));
 
                         serviceOeuvre.insertOeuvrepret(oeuvre);
-                        destinationPage = setOeuvreListDestination(request);
                     }
 
                     if(VENTE.equals(request.getParameter("type"))) {
-                       //todo
+                        Oeuvrevente oeuvre = new Oeuvrevente();
+
+                        oeuvre.setTitreOeuvrevente(request.getParameter("txttitre"));
+                        oeuvre.setEtatOeuvrevente(request.getParameter("txtetat"));
+                        oeuvre.setPrixOeuvrevente(Float.parseFloat(request.getParameter("txtprix")));
+                        oeuvre.setProprietaire(
+                                serviceProprietaire.consulterProprietaire(
+                                        Integer.parseInt(request.getParameter("propId"))));
+
+                        serviceOeuvre.insertOeuvrevente(oeuvre);
                     }
+
+                    destinationPage = setOeuvreListDestination(request);
 
                 } catch (Exception e) {
                     request.setAttribute(
@@ -111,52 +127,122 @@ public class ControleurOeuvre extends HttpServlet {
                 }
                 break;
 
-            case DETAIL_OEUVRES:
+            case DETAIL_OEUVRE_PRET:
                 if(request.getParameter("id").isEmpty() || request.getParameter("id") == null) {
                     request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_ID_MISSING);
                     break;
                 }
 
-                /*Oeuvre p = service.consulterProprietaire(Integer.parseInt(request.getParameter("id")));
+                try {
+                    Oeuvrepret o = serviceOeuvre.consulterOeuvrePret(Integer.parseInt(request.getParameter("id")));
 
-                if(p == null) {
-                    request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_DETAIL);
+                    request.setAttribute("type", PRET);
+                    request.setAttribute("oeuvre", o);
+                    request.setAttribute("proprietaire", o.getProprietaire());
+                    request.setAttribute("actionSubmit", "ControleurOeuvre?action=updateOeuvre");
+                    destinationPage = "/content/oeuvre/formOeuvre.jsp";
+
+                } catch(MonException e) {
+                    request.setAttribute(
+                            Constantes.ERROR_KEY,
+                            Constantes.ERROR_DETAIL.replace("%s", OEUVRE + PRET));
+                }
+                break;
+
+            case DETAIL_OEUVRE_VENTE:
+                if(request.getParameter("id").isEmpty() || request.getParameter("id") == null) {
+                    request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_ID_MISSING);
                     break;
                 }
 
-                request.setAttribute("proprietaire", p);
-                request.setAttribute("actionSubmit", "ControleurProprietaire?action=updateProprietaire");
-                destinationPage = "/content/proprietaire/formProprietaire.jsp";*/
+                try {
+                    Oeuvrevente o = serviceOeuvre.consulterOeuvreVente(Integer.parseInt(request.getParameter("id")));
+
+                    request.setAttribute("enumValues", Constantes.EtatsOeuvre.values());
+                    request.setAttribute("type", VENTE);
+                    request.setAttribute("oeuvre", o);
+                    request.setAttribute("proprietaire", o.getProprietaire());
+                    request.setAttribute("actionSubmit", "ControleurOeuvre?action=updateOeuvre");
+                    destinationPage = "/content/oeuvre/formOeuvre.jsp";
+
+                } catch(MonException e) {
+                    request.setAttribute(
+                            Constantes.ERROR_KEY,
+                            Constantes.ERROR_DETAIL.replace("%s", OEUVRE + VENTE));
+                }
                 break;
 
             case UPDATE_OEUVRES:
 
-                if(request.getParameter("txtId") == null || request.getParameter("txtnom").isEmpty()) {
-                    request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_ID_MISSING);
+                if(request.getParameter("type") == null
+                        || request.getParameter("propId") == null
+                        || request.getParameter("oeuvreId") == null) {
+                    request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_MISSING_ARGS);
                     break;
                 }
 
-                /*Proprietaire proprietaireToUpdate = service
-                        .consulterProprietaire(Integer.parseInt(request.getParameter("txtId")));
-                proprietaireToUpdate.setNomProprietaire(request.getParameter("txtnom"));
-                proprietaireToUpdate.setPrenomProprietaire(request.getParameter("txtprenom"));
-                service.modifierProprietaire(proprietaireToUpdate);
-                destinationPage = setProprietaireListDestination(request);*/
+                try {
+                    if(PRET.equals(request.getParameter("type"))) {
+
+                        Oeuvrepret oeuvreToUpdate = serviceOeuvre
+                                .consulterOeuvrePret(Integer.parseInt(request.getParameter("oeuvreId")));
+
+                        oeuvreToUpdate.setProprietaire(
+                                serviceProprietaire.consulterProprietaire(
+                                        Integer.parseInt(request.getParameter("propId"))));
+                        oeuvreToUpdate.setTitreOeuvrepret(request.getParameter("txttitre"));
+
+                        serviceOeuvre.modifierOeuvrepret(oeuvreToUpdate);
+                    }
+
+                    if(VENTE.equals(request.getParameter("type"))) {
+                        Oeuvrevente oeuvreToUpdate = serviceOeuvre
+                                .consulterOeuvreVente(Integer.parseInt(request.getParameter("oeuvreId")));
+
+                        oeuvreToUpdate.setProprietaire(
+                                serviceProprietaire.consulterProprietaire(
+                                        Integer.parseInt(request.getParameter("propId"))));
+                        oeuvreToUpdate.setTitreOeuvrevente(request.getParameter("txttitre"));
+                        oeuvreToUpdate.setPrixOeuvrevente(Float.parseFloat(request.getParameter("txtprix")));
+                        oeuvreToUpdate.setEtatOeuvrevente(request.getParameter("txtetat"));
+
+                        serviceOeuvre.modifierOeuvrevente(oeuvreToUpdate);
+                    }
+                    destinationPage = setOeuvreListDestination(request);
+
+                } catch(MonException e) {
+                    request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_UPDATING);
+                }
                 break;
 
-            case DELETE_OEUVRES:
+            case DELETE_OEUVRES_PRET:
                 if(request.getParameter("id") == null) {
                     request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_ID_MISSING);
                     break;
                 }
-                /*try {
-                    service.supprimerProprietaire(
-                            service.consulterProprietaire(Integer.parseInt(request.getParameter("id"))));
-                    destinationPage = setProprietaireListDestination(request);
+                try {
+                    serviceOeuvre.supprimerOeuvrepret(
+                            serviceOeuvre.consulterOeuvrePret(Integer.parseInt(request.getParameter("id"))));
+                    destinationPage = setOeuvreListDestination(request);
                 } catch(Exception e){
                     e.printStackTrace();
                     request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_DELETING);
-                }*/
+                }
+                break;
+
+            case DELETE_OEUVRES_VENTE:
+                if(request.getParameter("id") == null) {
+                    request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_ID_MISSING);
+                    break;
+                }
+                try {
+                    serviceOeuvre.supprimerOeuvrevente(
+                            serviceOeuvre.consulterOeuvreVente(Integer.parseInt(request.getParameter("id"))));
+                    destinationPage = setOeuvreListDestination(request);
+                } catch(Exception e){
+                    e.printStackTrace();
+                    request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_DELETING);
+                }
                 break;
 
             default:
