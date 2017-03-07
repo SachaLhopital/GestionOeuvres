@@ -4,7 +4,8 @@ Projet J2E Tomcat
 
 ## A Faire
 
-* CRUD Réservations -> service fini
+* Réservation : ajouter la fonction teste() (JS)
+* Vérifier que les tables se mettent à jour correctement
 * Vérifier que la présentation est correcte visuellement
 
 ## Terminé 
@@ -12,16 +13,14 @@ Projet J2E Tomcat
 * CRUD Adhérents
 * CRUD Propriétaires
 * CRUD Oeuvres
+* CRUD Réservation
 
 ### En + :
 
 * Demander confirmation avant un delete
 * Refactoring : Réarranger le code au niveau des vues
-* Refactoring : Réorganiser les constantes (erreurs, etc.)
-* Vérifier la gestion d'errreurs
+* Vérifier la gestion d'errreurs + Gérer les exeptions retournées par les DAO
 * Afficher les erreurs sans quitter la page
-* Vérifier le bon fonctionnement des méthodes javascripts (les formulaires ne doivent pas être null)
 * Fil d'ariane + tooltip
-* Gérer les exeptions retournées par les DAO
 
 

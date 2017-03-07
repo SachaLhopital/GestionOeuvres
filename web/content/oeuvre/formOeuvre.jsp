@@ -41,7 +41,7 @@
 
                 <div class="form-group">
                     <label class="col-sm-3">Etat de l'oeuvre : </label>
-                    <select name="txtetat">
+                    <select name="txtetat" disabled>
                         <c:forEach items="${enumValues}" var="etat">
                             <option value="${etat}" ${oeuvre.etatOeuvrevente == etat ? 'selected' : ''}>&nbsp;${etat}</option>
                         </c:forEach>
@@ -62,6 +62,6 @@
 </div>
 
 <SCRIPT language="Javascript" type="text/javascript">
-<script type="text/javascript" src="js/foncControle.js"></script>
+    <script type="text/javascript" src="js/foncControle.js"></script>
 
 <%@include file="/content/commun/footer.jsp"%>

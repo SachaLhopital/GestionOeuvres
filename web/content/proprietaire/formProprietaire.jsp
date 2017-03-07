@@ -31,6 +31,18 @@
 </div>
 
 <SCRIPT language="Javascript" type="text/javascript">
-<script type="text/javascript" src="js/foncControle.js"></script>
+        function teste(){
+            if(document.identification.txtnom.value == ""){
+                alert("Veuillez entrer un nom.")
+                return false;
+            }
+
+            if(document.identification.txtprenom.value == ""){
+                alert("Veuillez entrer un prenom.")
+                return false;
+            }
+            return true;
+        }
+</script>
 
 <%@include file="/content/commun/footer.jsp"%>
