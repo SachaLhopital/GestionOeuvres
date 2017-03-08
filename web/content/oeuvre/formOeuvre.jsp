@@ -62,6 +62,32 @@
 </div>
 
 <SCRIPT language="Javascript" type="text/javascript">
-    <script type="text/javascript" src="js/foncControle.js"></script>
+    function teste(){
+        if(document.identification.txttitre.value == ""){
+            alert("Veuillez entrer un titre.");
+            return false;
+        }
+
+        if(document.identification.type.value == "vente"){
+            if(document.identification.txtprix.value == ""){
+                alert("Veuillez entrer un prix.");
+                return false;
+            }
+
+            if(isNaN(parseFloat(document.identification.txtprix.value))){
+                alert("Saisissez un nombre.");
+                return false;
+            }
+
+            if(parseFloat(document.identification.txtprix.value)<0){
+                alert("Saisissez un nombre positif.");
+                return false;
+            }
+
+            document.identification.txtprix.value = parseFloat(document.identification.txtprix.value);
+        }
+        return true;
+    }
+</script>
 
 <%@include file="/content/commun/footer.jsp"%>
