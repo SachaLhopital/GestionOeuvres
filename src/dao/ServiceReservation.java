@@ -2,6 +2,8 @@ package dao;
 
 import meserreurs.MonException;
 import metier.Adherent;
+import metier.Oeuvrevente;
+import metier.Proprietaire;
 import metier.Reservation;
 import persistance.DialogueBd;
 import utilitaires.Constantes;
@@ -84,7 +86,34 @@ public class ServiceReservation {
     }
 
     public void supprimerReservation(Adherent adherent){
-        String rq = "delete from reservation where idadherent="+adherent.getIdAdherent();
+        String rq = "delete from reservation where id_adherent="+adherent.getIdAdherent();
+
+        DialogueBd unDialogueBd = DialogueBd.getInstance();
+        try{
+            unDialogueBd.execute(rq);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void supprimerReservation(Oeuvrevente oeuvre){
+        String rq = "delete from reservation where id_oeuvrevente="+oeuvre.getIdOeuvrevente();
+
+        DialogueBd unDialogueBd = DialogueBd.getInstance();
+        try{
+            unDialogueBd.execute(rq);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Suppression des reservations lié a une oeuvre lié a un proprietaire
+     * @param prop
+     */
+    public void supprimerReservation(Proprietaire prop){
+        String rq = "delete from reservation where id_oeuvrevente in "+
+                "(select id_oeuvrevente from oeuvrevente where id_proprietaire = "+prop.getIdProprietaire()+")";
 
         DialogueBd unDialogueBd = DialogueBd.getInstance();
         try{

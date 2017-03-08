@@ -110,6 +110,11 @@ public class ServiceProprietaire {
     }
 
     public void supprimerProprietaire (Proprietaire prop) throws MonException {
+        //Suppression des oeuvres associés
+        //suppression des oeuvres associées
+        new ServiceOeuvre().supprimerOeuvrepret(prop);
+        new ServiceOeuvre().supprimerOeuvrevente(prop);
+
         String rq = "delete from proprietaire where id_proprietaire="+prop.getIdProprietaire();
 
         DialogueBd unDialogueBd = DialogueBd.getInstance();
@@ -117,10 +122,6 @@ public class ServiceProprietaire {
         try{
 
             unDialogueBd.execute(rq);
-
-            //suppression des oeuvres associées
-            new ServiceOeuvre().supprimerOeuvrepret(prop);
-            new ServiceOeuvre().supprimerOeuvrevente(prop);
 
         }catch(Exception ex){
 

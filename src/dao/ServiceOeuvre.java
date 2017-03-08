@@ -211,6 +211,10 @@ public class ServiceOeuvre {
     }
 
     public void supprimerOeuvrevente (Oeuvrevente oeuvre) throws MonException {
+
+        //suppression des reservations associés
+        new ServiceReservation().supprimerReservation(oeuvre);
+
         String rq = "Delete from oeuvrevente where id_oeuvrevente ="+oeuvre.getIdOeuvrevente();
 
         try {
@@ -222,6 +226,10 @@ public class ServiceOeuvre {
     }
 
     public void supprimerOeuvrevente(Proprietaire prop) throws MonException {
+
+        //suppression des reservations associés
+        new ServiceReservation().supprimerReservation(prop);
+
         String rq = "delete from oeuvrevente where id_proprietaire="+prop.getIdProprietaire();
 
         try {
