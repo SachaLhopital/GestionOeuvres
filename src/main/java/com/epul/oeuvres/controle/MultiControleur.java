@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,7 +22,12 @@ public class MultiControleur {
 
 //	private static final Logger logger = LoggerFactory.getLogger(MultiControleur.class);
 
-	@RequestMapping(value = "listerAdherent.htm")
+	@RequestMapping(value = "home.htm")
+	public ModelAndView getHomePage(HttpServletRequest request, HttpServletResponse response) {
+		return new ModelAndView("index");
+	}
+
+	/*@RequestMapping(value = "listerAdherent.htm")
 	public ModelAndView afficherLesStages(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String destinationPage;
 		try {
@@ -47,7 +53,7 @@ public class MultiControleur {
 			unAdherent.setPrenomAdherent(request.getParameter("txtprenom"));
 			unAdherent.setVilleAdherent(request.getParameter("txtville"));
 			Service unService = new Service();
-			unService.insertAdherent(unAdherent);
+			//unService.insertAdherent(unAdherent);
 		} catch (Exception e) {
 			request.setAttribute("MesErreurs", e.getMessage());
 			destinationPage = "Erreur";
@@ -68,7 +74,7 @@ public class MultiControleur {
 		}
 
 		return new ModelAndView(destinationPage);
-	}
+	}*/
 
 	// /
 	// / Affichage de la page d'accueil
@@ -92,7 +98,7 @@ public class MultiControleur {
 	public ModelAndView AfficheErreur(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return new ModelAndView("Erreur");
 	}
-	
+
 	
 
 }
