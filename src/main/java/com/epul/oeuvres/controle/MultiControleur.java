@@ -4,14 +4,11 @@ package com.epul.oeuvres.controle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.epul.oeuvres.utilitaires.Constantes;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import com.epul.oeuvres.dao.Service;
-import com.epul.oeuvres.meserreurs.*;
-import com.epul.oeuvres.metier.*;
 
 ///
 /// Les méthode du contrôleur répondent à des sollicitations
@@ -25,6 +22,14 @@ public class MultiControleur {
 	@RequestMapping(value = "home.htm")
 	public ModelAndView getHomePage(HttpServletRequest request, HttpServletResponse response) {
 		return new ModelAndView("index");
+	}
+
+	/***
+	 * Return Error ModalAndView
+	 * @return
+	 */
+	public ModelAndView errorPage() {
+		return new ModelAndView(Constantes.ERROR_PAGE);
 	}
 
 	/*@RequestMapping(value = "listerAdherent.htm")

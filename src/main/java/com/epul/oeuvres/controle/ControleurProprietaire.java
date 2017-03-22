@@ -2,6 +2,7 @@ package com.epul.oeuvres.controle;
 
 import com.epul.oeuvres.dao.ServiceAdherent;
 import com.epul.oeuvres.dao.ServiceProprietaire;
+import com.epul.oeuvres.metier.Adherent;
 import com.epul.oeuvres.utilitaires.Constantes;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +15,9 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Sachouw on 11/03/2017.
  */
 @Controller
-public class ControleurProprietaire {
+public class ControleurProprietaire extends MultiControleur {
 
+    private static final String PROPRIETAIRE = "Proprietaire";
     private static final String LISTER_PROPRIETAIRE = "listerProprietaire";
     private static final String AJOUTER_PROPRIETAIRE = "ajouterProprietaire";
     private static final String INSERER_PROPRIETAIRE = "insererProprietaire";
@@ -37,5 +39,21 @@ public class ControleurProprietaire {
         }
 
         return new ModelAndView(destinationPage);
+    }
+
+    @RequestMapping("ajouterProprietaire.htm")
+    public ModelAndView getProprietaireForm(HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("actionSubmit", INSERER_PROPRIETAIRE);
+        return new ModelAndView("proprietaire/formProprietaire");
+    }
+
+    /***
+     * Insert and redirect to list
+     * @param request
+     * @return
+     */
+    @RequestMapping("insererProprietaire.htm")
+    public ModelAndView insertProprietaire(HttpServletRequest request) {
+        return errorPage();
     }
 }

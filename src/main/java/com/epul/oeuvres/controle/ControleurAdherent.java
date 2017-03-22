@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Sachouw on 11/03/2017.
  */
 @Controller
-public class ControleurAdherent {
+public class ControleurAdherent extends MultiControleur {
 
     public static final String ADHERENT = "adhérent";
     private static final String LISTER_ADHERENT = "listerAdherent";
@@ -164,13 +164,5 @@ public class ControleurAdherent {
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_DELETING);
         }
         return errorPage();
-    }
-
-    /***
-     * Return Error ModalAndView
-     * @return
-     */
-    private ModelAndView errorPage() {
-        return new ModelAndView(Constantes.ERROR_PAGE);
     }
 }
