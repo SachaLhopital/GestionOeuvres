@@ -1,7 +1,5 @@
 package com.epul.oeuvres.utilitaires;
 
-import org.springframework.web.servlet.ModelAndView;
-
 import java.text.SimpleDateFormat;
 
 /**
@@ -17,7 +15,7 @@ public class Constantes {
 
     /* Erreurs */
     public static final String ERROR_KEY = "messageErreur";
-    public static final String ERROR_PAGE = "erreur";
+    public static final String ERROR_PAGE = "Erreur";
     public static final String ERROR_ID_MISSING = "Id manquant";
     public static final String ERROR_MISSING_ARGS = "Informations manquantes";
     public static final String ERROR_UPDATING = "Impossible de mettre à jour";

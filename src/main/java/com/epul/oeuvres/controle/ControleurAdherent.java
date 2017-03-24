@@ -7,6 +7,7 @@ import com.epul.oeuvres.metier.Adherent;
 import com.epul.oeuvres.utilitaires.Constantes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Sachouw on 11/03/2017.
  */
 @Controller
+@RequestMapping("/adherents/")
 public class ControleurAdherent extends MultiControleur {
 
     public static final String ADHERENT = "adhérent";
@@ -86,15 +88,15 @@ public class ControleurAdherent extends MultiControleur {
      * @param request
      * @return
      */
-    @RequestMapping("detailAdherent.htm")
-    public ModelAndView getAdherent(HttpServletRequest request) {
+    @RequestMapping("detailAdherent/{id}")
+    public ModelAndView getAdherent(@PathVariable("id") int id, HttpServletRequest request) {
         try {
-            if (request.getParameter("id").isEmpty() || request.getParameter("id") == null) {
+            if (id == 0) {
                 request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_ID_MISSING);
                 return errorPage();
             }
 
-            Adherent a = new ServiceAdherent().consulterAdherent(Integer.parseInt(request.getParameter("id")));
+            Adherent a = new ServiceAdherent().consulterAdherent(id);
 
             if (a == null) {
                 request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_DETAIL.replace("%s", ADHERENT));
@@ -102,7 +104,7 @@ public class ControleurAdherent extends MultiControleur {
             }
 
             request.setAttribute("adherent", a);
-            request.setAttribute("actionSubmit", UPDATE_ADHERENT);
+            request.setAttribute("actionSubmit", "/adherents/" +UPDATE_ADHERENT);
             return new ModelAndView("adherent/formAdherent");
 
         } catch (Exception e) {

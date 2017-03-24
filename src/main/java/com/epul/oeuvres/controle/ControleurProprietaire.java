@@ -1,8 +1,6 @@
 package com.epul.oeuvres.controle;
 
-import com.epul.oeuvres.dao.ServiceAdherent;
 import com.epul.oeuvres.dao.ServiceProprietaire;
-import com.epul.oeuvres.metier.Adherent;
 import com.epul.oeuvres.utilitaires.Constantes;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Sachouw on 11/03/2017.
  */
 @Controller
+@RequestMapping("/proprietaires/")
 public class ControleurProprietaire extends MultiControleur {
 
     private static final String PROPRIETAIRE = "Proprietaire";

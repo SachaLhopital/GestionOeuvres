@@ -6,7 +6,7 @@
     </div>
     <div class="col-sm-8"></div>
     <div class="col-sm-2">
-        <a href="ajouterAdherent.htm">
+        <a href="/adherents/ajouterAdherent.htm">
             <button type="button" class="btn btn-primary" aria-label="Left Align">
                 <span class="fa fa-user-plus" aria-hidden="true">&nbsp;Ajouter un Adh&eacute;rent</span>
             </button>
@@ -39,17 +39,17 @@
                         <td>${item.prenomAdherent}</td>
                         <td>${item.villeAdherent}</td>
                         <td>
-                            <a href="ajouterReservation.htm" id="${item.idAdherent}">
+                            <a href="/reservations/ajouterReservation.htm" id="${item.idAdherent}">
                                 <button type="button" class="btn btn-info" aria-label="Left Align">
                                     <span class="fa fa-plus" aria-hidden="true">&nbsp;Ajouter une R&eacute;servation</span>
                                 </button>
                             </a>
-                            <a href="detailAdherent.htm" id="${item.idAdherent}">
+                            <a href="/adherents/detailAdherent/${item.idAdherent}">
                                 <button type="button" class="btn btn-info" aria-label="Left Align">
                                     <span class="fa fa-pencil" aria-hidden="true"></span>
                                 </button>
                             </a>
-                            <a href="supprimerAdherent.htm" id="${item.idAdherent}">
+                            <a href="/adherents/supprimerAdherent.htm" id="${item.idAdherent}">
                                 <button type="button" class="btn btn-danger" aria-label="Left Align">
                                     <span class="fa fa-user-times" aria-hidden="true"></span>
                                 </button>
