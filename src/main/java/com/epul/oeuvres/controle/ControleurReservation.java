@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Sachouw on 11/03/2017.
  */
 @Controller
+@RequestMapping("/reservations/")
 public class ControleurReservation {
 
     @RequestMapping("listerReservation.htm")

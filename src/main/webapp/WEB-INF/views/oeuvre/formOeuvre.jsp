@@ -2,8 +2,8 @@
 
 <div class="row">
     <div class="col-sm-2">
-        <a href="ControleurOeuvre?action=listerOeuvre"><span class="fa fa-picture-o fa-2x"></span></a>
-        <a href="ControleurProprietaire?action=listerProprietaire"><span class="fa fa-tasks fa-2x"></span></a>
+        <a href="/oeuvres/listerOeuvre.htm"><span class="fa fa-picture-o fa-2x"></span></a>
+        <a href="/proprietaires/listerProprietaire.htm"><span class="fa fa-tasks fa-2x"></span></a>
     </div>
 </div>
 <br/><br/>

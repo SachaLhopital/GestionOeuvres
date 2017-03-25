@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-sm-2">
-        <a href="../index.jsp"><span class="fa fa-home fa-2x"></span></a>
+        <a href="/"><span class="fa fa-home fa-2x"></span></a>
     </div>
 </div>
 
@@ -27,12 +27,12 @@
                         <td>${item.titreOeuvrepret}</td>
                         <td>${item.proprietaire.nomProprietaire} ${item.proprietaire.prenomProprietaire}</td>
                         <td>
-                            <a href="ControleurOeuvre?action=detailOeuvrePret&id=${item.idOeuvrepret}">
+                            <a href="/oeuvres/detailOeuvrePret/${item.idOeuvrepret}">
                                 <button type="button" class="btn btn-info" aria-label="Left Align">
                                     <span class="fa fa-pencil" aria-hidden="true"></span>
                                 </button>
                             </a>
-                            <a href="ControleurOeuvre?action=deleteOeuvrePret&id=${item.idOeuvrepret}">
+                            <a href="/oeuvres/deleteOeuvrePret/${item.idOeuvrepret}">
                                 <button type="button" class="btn btn-danger" aria-label="Left Align">
                                     <span class="fa fa-times" aria-hidden="true"></span>
                                 </button>
@@ -66,12 +66,12 @@
                         <td>${item.prixOeuvrevente}</td>
                         <td>${item.proprietaire.nomProprietaire} ${item.proprietaire.prenomProprietaire}</td>
                         <td>
-                            <a href="ControleurOeuvre?action=detailOeuvreVente&id=${item.idOeuvrevente}">
+                            <a href="/oeuvres/detailOeuvreVente/${item.idOeuvrevente}">
                                 <button type="button" class="btn btn-info" aria-label="Left Align">
                                     <span class="fa fa-pencil" aria-hidden="true"></span>
                                 </button>
                             </a>
-                            <a href="ControleurOeuvre?action=deleteOeuvreVente&id=${item.idOeuvrevente}">
+                            <a href="/oeuvres/deleteOeuvreVente/${item.idOeuvrevente}">
                                 <button type="button" class="btn btn-danger" aria-label="Left Align">
                                     <span class="fa fa-times" aria-hidden="true"></span>
                                 </button>

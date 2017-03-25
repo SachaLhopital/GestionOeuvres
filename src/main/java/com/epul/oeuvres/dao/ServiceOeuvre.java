@@ -5,6 +5,8 @@ import com.epul.oeuvres.metier.Oeuvrepret;
 import com.epul.oeuvres.metier.Oeuvrevente;
 import com.epul.oeuvres.metier.Proprietaire;
 import com.epul.oeuvres.persistance.DialogueBd;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;

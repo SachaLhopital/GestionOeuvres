@@ -16,27 +16,24 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/proprietaires/")
 public class ControleurProprietaire extends MultiControleur {
 
+    ServiceProprietaire serviceProprietaire = new ServiceProprietaire();
+
     private static final String PROPRIETAIRE = "Proprietaire";
-    private static final String LISTER_PROPRIETAIRE = "listerProprietaire";
+    private static final String LISTER_PROPRIETAIRE = "listerProprietaire.htm";
     private static final String AJOUTER_PROPRIETAIRE = "ajouterProprietaire";
     private static final String INSERER_PROPRIETAIRE = "insererProprietaire";
     private static final String DETAIL_PROPRIETAIRE = "detailProprietaire";
     private static final String UPDATE_PROPRIETAIRE = "updateProprietaire";
     private static final String DELETE_PROPRIETAIRE = "deleteProprietaire";
 
-    @RequestMapping(value = "listerProprietaire.htm")
+    @RequestMapping(value = LISTER_PROPRIETAIRE)
     public ModelAndView getProprietaireList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        ServiceProprietaire serviceProprietaire = new ServiceProprietaire();
-        String destinationPage = Constantes.ERROR_PAGE;
-
         try {
             request.setAttribute("mesProprietaires", serviceProprietaire.consulterProprietaires());
-            destinationPage = "proprietaire/listerProprietaire";
+            destinationPage = "/proprietaire/listerProprietaire";
         } catch (Exception e) {
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_LISTING);
         }
-
         return new ModelAndView(destinationPage);
     }
 

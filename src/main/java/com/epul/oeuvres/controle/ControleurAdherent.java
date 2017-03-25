@@ -1,6 +1,7 @@
 package com.epul.oeuvres.controle;
 
 import com.epul.oeuvres.dao.ServiceAdherent;
+import com.epul.oeuvres.meserreurs.MonException;
 import com.epul.oeuvres.metier.Adherent;
 import com.epul.oeuvres.utilitaires.Constantes;
 import org.springframework.stereotype.Controller;
@@ -19,12 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 public class ControleurAdherent extends MultiControleur {
 
     public static final String ADHERENT = "adhérent";
-    private static final String LISTER_ADHERENT = "listerAdherent";
-    private static final String AJOUTER_ADHERENT = "ajouterAdherent";
+    private static final String LISTER_ADHERENT = "listerAdherent.htm";
+    private static final String AJOUTER_ADHERENT = "ajouterAdherent.htm";
     private static final String INSERER_ADHERENT = "insererAdherent.htm";
-    private static final String DETAIL_ADHERENT = "detailAdherent";
     private static final String UPDATE_ADHERENT = "updateAdherent.htm";
-    private static final String SUPPRIMER_ADHERENT = "supprimerAdherent.htm";
 
     /***
      * Get Adherent List
@@ -33,7 +32,7 @@ public class ControleurAdherent extends MultiControleur {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "listerAdherent.htm")
+    @RequestMapping(value = LISTER_ADHERENT)
     public ModelAndView getAdherentList(HttpServletRequest request, HttpServletResponse response) {
         try {
             request.setAttribute("mesAdherents", new ServiceAdherent().consulterListeAdherents());
@@ -51,7 +50,7 @@ public class ControleurAdherent extends MultiControleur {
      * @return
      * @throws Exception
      */
-    @RequestMapping("ajouterAdherent.htm")
+    @RequestMapping(AJOUTER_ADHERENT)
     public ModelAndView getAdherentForm(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("actionSubmit", INSERER_ADHERENT);
         return new ModelAndView("adherent/formAdherent");
@@ -62,7 +61,7 @@ public class ControleurAdherent extends MultiControleur {
      * @param request
      * @return
      */
-    @RequestMapping("insererAdherent.htm")
+    @RequestMapping(INSERER_ADHERENT)
     public ModelAndView insertAdherent(HttpServletRequest request) {
         try {
             Adherent unAdherent = new Adherent();
@@ -117,7 +116,7 @@ public class ControleurAdherent extends MultiControleur {
      * @return
      */
     @RequestMapping(UPDATE_ADHERENT)
-    public ModelAndView updateAdherent(HttpServletRequest request) {
+    public ModelAndView updateAdherent(HttpServletRequest request) throws MonException {
         if(request.getParameter("txtId") == null
                 || request.getParameter("txtnom").isEmpty()
                 || request.getParameter("txtprenom").isEmpty()
@@ -148,15 +147,15 @@ public class ControleurAdherent extends MultiControleur {
      * @param request
      * @return
      */
-    @RequestMapping(SUPPRIMER_ADHERENT)
-    public ModelAndView deleteAdherent(HttpServletRequest request) {
-        if(request.getParameter("id") == null) {
+    @RequestMapping("supprimerAdherent/{id}")
+    public ModelAndView deleteAdherent(@PathVariable("id") int id, HttpServletRequest request) {
+        if(id == 0) {
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_ID_MISSING);
             return errorPage();
         }
         try {
             ServiceAdherent service = new ServiceAdherent();
-            service.supprimerAdherent(service.consulterAdherent(Integer.parseInt(request.getParameter("id"))));
+            service.supprimerAdherent(service.consulterAdherent(id));
             return getAdherentList(request, null);
         } catch(Exception e){
             e.printStackTrace();

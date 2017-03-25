@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-sm-2">
-        <a href="../index.jsp"><span class="fa fa-home fa-2x"></span></a>
+        <a href="/"><span class="fa fa-home fa-2x"></span></a>
     </div>
     <div class="col-sm-8"></div>
     <div class="col-sm-2">
@@ -49,7 +49,7 @@
                                     <span class="fa fa-pencil" aria-hidden="true"></span>
                                 </button>
                             </a>
-                            <a href="/adherents/supprimerAdherent.htm" id="${item.idAdherent}">
+                            <a href="/adherents/supprimerAdherent/${item.idAdherent}">
                                 <button type="button" class="btn btn-danger" aria-label="Left Align">
                                     <span class="fa fa-user-times" aria-hidden="true"></span>
                                 </button>

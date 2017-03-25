@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+/***
+ * Controller commun
+ */
 @Controller
 public class MultiControleur {
+
+	String destinationPage = Constantes.ERROR_PAGE;
 
 	/***
 	 * Return Error ModalAndView
@@ -22,11 +27,11 @@ public class MultiControleur {
 
 	@RequestMapping(value = "index.htm", method = RequestMethod.GET)
 	public ModelAndView Afficheindex(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return new ModelAndView("home");
+		return AfficheRoot(request);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView Afficheindex2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView AfficheRoot(HttpServletRequest request) throws Exception {
 		return new ModelAndView("home");
 	}
 }

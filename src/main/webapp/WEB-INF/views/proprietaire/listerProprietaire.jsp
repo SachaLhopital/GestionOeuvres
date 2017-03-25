@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-sm-2">
-        <a href="../index.jsp"><span class="fa fa-home fa-2x"></span></a>
+        <a href="/"><span class="fa fa-home fa-2x"></span></a>
     </div>
     <div class="col-sm-8"></div>
     <div class="col-sm-2">

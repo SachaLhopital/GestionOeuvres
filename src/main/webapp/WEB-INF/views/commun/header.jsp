@@ -35,7 +35,7 @@
         <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
             <ul class="nav nav-pills nav-stacked">
                 <li>
-                    <a href="index.htm">
+                    <a href="/">
                         <i class="fa fa-home" aria-hidden="true"></i>
                         &nbsp;
                         <span class="hidden-xs hidden-sm">Accueil</span>

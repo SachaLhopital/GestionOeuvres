@@ -1,17 +1,10 @@
 package com.epul.oeuvres.utilitaires;
 
-import java.text.SimpleDateFormat;
-
 /**
  * Fichier de constantes
  * Created by Sachouw on 21/02/2017.
  */
 public class Constantes {
-
-    public static final String ACTION_TYPE = "action";
-
-    /* Date */
-    public static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     /* Erreurs */
     public static final String ERROR_KEY = "messageErreur";
