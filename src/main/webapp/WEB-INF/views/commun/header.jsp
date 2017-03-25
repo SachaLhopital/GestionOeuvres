@@ -35,35 +35,35 @@
         <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
             <ul class="nav nav-pills nav-stacked">
                 <li>
-                    <a href="home.htm">
+                    <a href="index.htm">
                         <i class="fa fa-home" aria-hidden="true"></i>
                         &nbsp;
                         <span class="hidden-xs hidden-sm">Accueil</span>
                     </a>
                 </li>
                 <li>
-                    <a href="listerAdherent.htm">
+                    <a href="/adherents/listerAdherent.htm">
                         <i class="fa fa-users" aria-hidden="true"></i>
                         &nbsp;
                         <span class="hidden-xs hidden-sm">Adh&eacute;rents</span>
                     </a>
                 </li>
                 <li>
-                    <a href="listerProprietaire.htm">
+                    <a href="/proprietaires/listerProprietaire.htm">
                         <i class="fa fa-tasks" aria-hidden="true"></i>
                         &nbsp;
                         <span class="hidden-xs hidden-sm">Propri&eacute;taires</span>
                     </a>
                 </li>
                 <li>
-                    <a href="listerOeuvre.htm">
+                    <a href="/oeuvres/listerOeuvre.htm">
                         <i class="fa fa-picture-o" aria-hidden="true"></i>
                         &nbsp;
                         <span class="hidden-xs hidden-sm">Oeuvres</span>
                     </a>
                 </li>
                 <li>
-                    <a href="listerReservation.htm">
+                    <a href="/reservations/listerReservation.htm">
                         <i class="fa fa-bookmark-o" aria-hidden="true"></i>
                         &nbsp;
                         <span class="hidden-xs hidden-sm">R&eacute;servations</span>
