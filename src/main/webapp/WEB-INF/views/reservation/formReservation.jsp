@@ -31,4 +31,14 @@
     </form>
 </div>
 
+<SCRIPT language="Javascript" type="text/javascript">
+    function teste() {
+        if (document.identification.txtOeuvre.value == "") {
+            alert("Impossible de reserver une oeuvre inexistante");
+            return false;
+        }
+        return true;
+    }
+</script>
+
 <%@include file="../commun/footer.jsp"%>
