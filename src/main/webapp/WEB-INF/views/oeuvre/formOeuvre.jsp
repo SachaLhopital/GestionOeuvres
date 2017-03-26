@@ -41,10 +41,9 @@
 
                 <div class="form-group">
                     <label class="col-sm-3">Etat de l'oeuvre : </label>
-                    <select name="txtetat" disabled>
-                        <c:forEach items="${enumValues}" var="etat">
-                            <option value="${etat}" ${oeuvre.etatOeuvrevente == etat ? 'selected' : ''}>&nbsp;${etat}</option>
-                        </c:forEach>
+                    <select disabled>
+                        <option value="L" ${oeuvre.etatOeuvrevente == "L" ? 'selected="selected"' : ''}>&nbsp;L</option>
+                        <option value="R" ${oeuvre.etatOeuvrevente == "R" ? 'selected="selected"' : ''}>&nbsp;R</option>
                     </select>
                 </div>
 

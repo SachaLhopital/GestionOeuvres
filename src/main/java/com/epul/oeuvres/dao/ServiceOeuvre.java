@@ -180,11 +180,11 @@ public class ServiceOeuvre {
             rs = unDialogueBd.lecture(rq);
         }catch (Exception ex){
             ex.printStackTrace();
-            return null;
+            throw new MonException(ex.getMessage(), "model");
         }
 
         if(rs.size()<=0){
-            return null;
+            throw new MonException("Erreur dans la requête", "model");
         }
 
         oeuvre.setIdOeuvrevente(Integer.parseInt(rs.get(0).toString()));

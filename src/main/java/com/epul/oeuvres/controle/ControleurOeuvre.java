@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,6 @@ public class ControleurOeuvre extends MultiControleur {
     private static final String AJOUTER_OEUVRES = "ajouterOeuvre";
     private static final String INSERER_OEUVRES = "insererOeuvre";
     private static final String UPDATE_OEUVRES = "updateOeuvre";
-    private static final String DELETE_OEUVRES = "deleteOeuvre";
 
     /******************************
      *  COMMUN
@@ -46,6 +46,7 @@ public class ControleurOeuvre extends MultiControleur {
             destinationPage = "oeuvre/listerOeuvre";
         } catch (Exception e) {
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_LISTING.replace("%s", OEUVRE));
+            errorPage();
         }
         return new ModelAndView(destinationPage);
     }
@@ -56,83 +57,92 @@ public class ControleurOeuvre extends MultiControleur {
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_MISSING_ARGS);
             return errorPage();
         }
-        request.setAttribute("enumValues", Constantes.EtatsOeuvre.values());
+        //request.setAttribute("enumValues", Constantes.EtatsOeuvre.values());
         request.setAttribute("type", type);
         request.setAttribute("actionSubmit", "/oeuvres/insererOeuvre");
         request.setAttribute("proprietaire", serviceProprietaire.consulterProprietaire(id));
         return new ModelAndView("/oeuvre/formOeuvre");
     }
 
-    @RequestMapping(INSERER_OEUVRES + "/{type}/{proprietaireId}")
-    public ModelAndView insertOeuvre(@PathVariable("proprietaireId") int proprietaireId, @PathVariable("type") String type, HttpServletRequest request) throws Exception {
-        if(type.equals("") || proprietaireId == 0) {
+    @RequestMapping(INSERER_OEUVRES)
+    public ModelAndView insertOeuvre(HttpServletRequest request) throws MonException {
+        if(request.getParameter("type").isEmpty()
+                || request.getParameter("type") == null
+                || request.getParameter("propId").isEmpty()
+                || request.getParameter("propId") == null) {
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_MISSING_ARGS);
             return errorPage();
         }
         try {
-            if(PRET.equals(type)) {
+            if(PRET.equals(request.getParameter("type"))) {
                 Oeuvrepret oeuvre = new Oeuvrepret();
 
                 oeuvre.setTitreOeuvrepret(request.getParameter("txttitre"));
-                oeuvre.setProprietaire(serviceProprietaire.consulterProprietaire(proprietaireId));
+                oeuvre.setProprietaire(
+                        serviceProprietaire.consulterProprietaire(Integer.parseInt(request.getParameter("propId"))));
                 serviceOeuvre.insertOeuvrepret(oeuvre);
             }
 
-            if(VENTE.equals(type)) {
+            if(VENTE.equals(request.getParameter("type"))) {
                 Oeuvrevente oeuvre = new Oeuvrevente();
 
                 oeuvre.setTitreOeuvrevente(request.getParameter("txttitre"));
-                oeuvre.setEtatOeuvrevente(request.getParameter("txtetat"));
+                oeuvre.setEtatOeuvrevente(Constantes.EtatsOeuvre.L.toString());
                 oeuvre.setPrixOeuvrevente(Float.parseFloat(request.getParameter("txtprix")));
-                oeuvre.setProprietaire(serviceProprietaire.consulterProprietaire(proprietaireId));
+                oeuvre.setProprietaire(
+                        serviceProprietaire.consulterProprietaire(Integer.parseInt(request.getParameter("propId"))));
                 serviceOeuvre.insertOeuvrevente(oeuvre);
             }
 
-        } catch (Exception e) {
+        } catch (MonException ex) {
             request.setAttribute(
                     Constantes.ERROR_KEY,
                     Constantes.ERROR_INSERT.replace("%s", OEUVRE + request.getParameter("type")));
+            return errorPage();
         }
         return getOeuvresList(request);
     }
 
-    @RequestMapping(UPDATE_OEUVRES + "/{type}/{proprietaireId}/{oeuvreId}")
-    public ModelAndView updateOeuvre(
-            @PathVariable("proprietaireId") int proprietaireId,
-            @PathVariable("oeuvreId") int oeuvreId,
-            @PathVariable("type") String type,
-            HttpServletRequest request) throws MonException {
+    @RequestMapping(UPDATE_OEUVRES)
+    public ModelAndView updateOeuvre(HttpServletRequest request) throws MonException {
 
-        if(type.equals("") || proprietaireId == 0 || oeuvreId == 0) {
+        if(request.getParameter("type") == null
+                || request.getParameter("propId") == null
+                || request.getParameter("oeuvreId") == null) {
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_MISSING_ARGS);
             return errorPage();
         }
 
         try {
-            if(PRET.equals(type)) {
+            if(PRET.equals(request.getParameter("type"))) {
 
-                Oeuvrepret oeuvreToUpdate = serviceOeuvre.consulterOeuvrePret(oeuvreId);
+                Oeuvrepret oeuvreToUpdate = serviceOeuvre
+                        .consulterOeuvrePret(Integer.parseInt(request.getParameter("oeuvreId")));
 
                 oeuvreToUpdate.setProprietaire(
-                        serviceProprietaire.consulterProprietaire(proprietaireId));
+                        serviceProprietaire.consulterProprietaire(
+                                Integer.parseInt(request.getParameter("propId"))));
                 oeuvreToUpdate.setTitreOeuvrepret(request.getParameter("txttitre"));
 
                 serviceOeuvre.modifierOeuvrepret(oeuvreToUpdate);
             }
 
-            if(VENTE.equals(type)) {
-                Oeuvrevente oeuvreToUpdate = serviceOeuvre.consulterOeuvreVente(oeuvreId);
+            if(VENTE.equals(request.getParameter("type"))) {
+                Oeuvrevente oeuvreToUpdate = serviceOeuvre
+                        .consulterOeuvreVente(Integer.parseInt(request.getParameter("oeuvreId")));
 
                 oeuvreToUpdate.setProprietaire(
-                        serviceProprietaire.consulterProprietaire(proprietaireId));
+                        serviceProprietaire.consulterProprietaire(
+                                Integer.parseInt(request.getParameter("propId"))));
                 oeuvreToUpdate.setTitreOeuvrevente(request.getParameter("txttitre"));
                 oeuvreToUpdate.setPrixOeuvrevente(Float.parseFloat(request.getParameter("txtprix")));
-                oeuvreToUpdate.setEtatOeuvrevente(request.getParameter("txtetat"));
 
                 serviceOeuvre.modifierOeuvrevente(oeuvreToUpdate);
             }
+
         } catch(MonException e) {
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_UPDATING);
+            errorPage();
         }
         return getOeuvresList(request);
     }
@@ -153,13 +163,14 @@ public class ControleurOeuvre extends MultiControleur {
             request.setAttribute("type", PRET);
             request.setAttribute("oeuvre", o);
             request.setAttribute("proprietaire", o.getProprietaire());
-            request.setAttribute("actionSubmit", "/oeuvres/updateOeuvre");
+            request.setAttribute("actionSubmit", "/oeuvres/" + UPDATE_OEUVRES);
             destinationPage = "/oeuvre/formOeuvre";
 
         } catch(MonException e) {
             request.setAttribute(
                     Constantes.ERROR_KEY,
                     Constantes.ERROR_DETAIL.replace("%s", OEUVRE + PRET));
+            errorPage();
         }
         return new ModelAndView(destinationPage);
     }
@@ -175,6 +186,7 @@ public class ControleurOeuvre extends MultiControleur {
         } catch(Exception e){
             e.printStackTrace();
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_DELETING);
+            errorPage();
         }
         return getOeuvresList(request);
     }
@@ -193,7 +205,6 @@ public class ControleurOeuvre extends MultiControleur {
         try {
             Oeuvrevente o = serviceOeuvre.consulterOeuvreVente(id);
 
-            request.setAttribute("enumValues", Constantes.EtatsOeuvre.values());
             request.setAttribute("type", VENTE);
             request.setAttribute("oeuvre", o);
             request.setAttribute("proprietaire", o.getProprietaire());
@@ -204,6 +215,7 @@ public class ControleurOeuvre extends MultiControleur {
             request.setAttribute(
                     Constantes.ERROR_KEY,
                     Constantes.ERROR_DETAIL.replace("%s", OEUVRE + VENTE));
+            errorPage();
         }
         return new ModelAndView(destinationPage);
     }
@@ -220,6 +232,7 @@ public class ControleurOeuvre extends MultiControleur {
         } catch(Exception e){
             e.printStackTrace();
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_DELETING);
+            errorPage();
         }
         return getOeuvresList(request);
     }

@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.epul.oeuvres.utilitaires.Constantes;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MultiControleur {
 
+    //todo : remove destinationPage
 	String destinationPage = Constantes.ERROR_PAGE;
 
 	/***

@@ -6,7 +6,7 @@
     </div>
     <div class="col-sm-8"></div>
     <div class="col-sm-2">
-        <a href="ControleurProprietaire?action=ajouterProprietaire">
+        <a href="/proprietaires/ajouterProprietaire.htm">
             <button type="button" class="btn btn-primary" aria-label="Left Align">
                 <span class="fa fa-user-plus" aria-hidden="true">&nbsp;Ajouter un Propri&eacute;taire</span>
             </button>
@@ -35,22 +35,22 @@
                         <td>${item.nomProprietaire}</td>
                         <td>${item.prenomProprietaire}</td>
                         <td>
-                            <a href="ControleurOeuvre?action=ajouterOeuvre&type=pret&id=${item.idProprietaire}">
+                            <a href="/oeuvres/ajouterOeuvre/pret/${item.idProprietaire}">
                                 <button type="button" class="btn btn-primary" aria-label="Left Align">
                                     <span class="fa fa-plus" aria-hidden="true">&nbsp;Oeuvre de pr&ecirc;t</span>
                                 </button>
                             </a>
-                            <a href="ControleurOeuvre?action=ajouterOeuvre&type=vente&id=${item.idProprietaire}">
+                            <a href="/oeuvres/ajouterOeuvre/vente/${item.idProprietaire}">
                                 <button type="button" class="btn btn-primary" aria-label="Left Align">
                                     <span class="fa fa-plus" aria-hidden="true">&nbsp;Oeuvre de vente</span>
                                 </button>
                             </a>
-                            <a href="ControleurProprietaire?action=detailProprietaire&id=${item.idProprietaire}">
+                            <a href="/proprietaires/detailProprietaire/${item.idProprietaire}">
                                 <button type="button" class="btn btn-info" aria-label="Left Align">
                                     <span class="fa fa-pencil" aria-hidden="true"></span>
                                 </button>
                             </a>
-                            <a href="ControleurProprietaire?action=deleteProprietaire&id=${item.idProprietaire}">
+                            <a href="/proprietaires/deleteProprietaire/${item.idProprietaire}">
                                 <button type="button" class="btn btn-danger" aria-label="Left Align">
                                     <span class="fa fa-user-times" aria-hidden="true"></span>
                                 </button>

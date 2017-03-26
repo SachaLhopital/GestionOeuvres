@@ -30,7 +30,7 @@
                         <td>${item.adherent.nomAdherent} ${item.adherent.prenomAdherent}</td>
                         <td>${item.oeuvrevente.titreOeuvrevente}</td>
                         <td>
-                            <a href="ControleurReservation?action=deleteReservation&date=<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"></fmt:formatDate>&id=${item.oeuvrevente.idOeuvrevente}">
+                            <a href="/reservations/deleteReservation/<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"></fmt:formatDate>/${item.oeuvrevente.idOeuvrevente}">
                                 <button type="button" class="btn btn-danger" aria-label="Left Align">
                                     <span class="fa fa-times" aria-hidden="true"></span>
                                 </button>

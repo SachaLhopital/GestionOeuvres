@@ -61,21 +61,29 @@ public class ServiceAdherent {
         }
     }
 
-    public void supprimerAdherent (Adherent adherent){
+    /***
+     * Supprime un adhérent
+     * @param adherent
+     * @throws MonException
+     */
+    public void supprimerAdherent (Adherent adherent) throws MonException {
         String rq = "delete from adherent where id_adherent ="+adherent.getIdAdherent()+";";
 
         DialogueBd unDialogueBd = DialogueBd.getInstance();
         try{
+            new ServiceReservation().supprimerReservation(adherent);
             unDialogueBd.execute(rq);
         }catch(Exception ex){
-            ex.printStackTrace();
+            throw new MonException(ex.getMessage());
         }
-
-        //suppression des reservations de l'adherent
-        new ServiceReservation().supprimerReservation(adherent);
     }
 
-    public Adherent modifierAdherent(Adherent adherent){
+    /***
+     * Met à jour un adhérent
+     * @param adherent
+     * @return
+     */
+    public Adherent modifierAdherent(Adherent adherent) throws MonException {
         String rq = "update adherent set nom_adherent='"+adherent.getNomAdherent()+"'"+
                 ", prenom_adherent ='"+adherent.getPrenomAdherent()+"'"+
                 ", ville_adherent ='"+adherent.getVilleAdherent()+"'"+
@@ -85,14 +93,17 @@ public class ServiceAdherent {
         try{
             unDialogueBd.execute(rq);
         }catch(Exception ex){
-            ex.printStackTrace();
-            return null;
+            throw new MonException(ex.getMessage());
         }
-
         return adherent;
     }
 
-    public Adherent insertAdherent(Adherent adherent){
+    /***
+     * Insère un adhérent
+     * @param adherent
+     * @return
+     */
+    public Adherent insertAdherent(Adherent adherent) throws MonException {
         String rq = "insert into adherent (nom_adherent, prenom_adherent, ville_adherent) values ('"+
                 adherent.getNomAdherent()+"','"+adherent.getPrenomAdherent()+"','"+adherent.getVilleAdherent()+"')";
 
@@ -100,8 +111,7 @@ public class ServiceAdherent {
         try{
             unDialogueBd.insertionBD(rq);
         }catch(Exception ex){
-            ex.printStackTrace();
-            return null;
+            throw new MonException(ex.getMessage());
         }
 
         //recuperation de l'ID
@@ -112,17 +122,13 @@ public class ServiceAdherent {
         {
             rs = unDialogueBd.lecture(rq);
         }catch (Exception ex){
-            ex.printStackTrace();
-            return null;
+            throw new MonException(ex.getMessage());
         }
 
         if(rs.size()<=0){
-            return null;
+            throw new MonException("Erreur lors de l'insertion d'un adhérent");
         }
-
         adherent.setIdAdherent(Integer.parseInt(rs.get(0).toString()));
-
         return adherent;
-
     }
 }

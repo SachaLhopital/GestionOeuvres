@@ -36,11 +36,15 @@ public class ServiceReservation {
             return reservations.get(0);
         } catch (MonException e) {
             throw new MonException(e.getMessage(), "erreur interne");
-        }/*catch(ParseException e) {
-            throw new MonException(e.getMessage(), "parsing d'une date");
-        }*/
+        }
     }
 
+    /***
+     * Réupère la sortie d'une requête sous forme d'une liste de réservations
+     * @param mysql la requête à executer
+     * @return Liste de réservations
+     * @throws MonException
+     */
     private List<Reservation> consulterReservations(String mysql) throws MonException {
         List<Reservation> mesReservations = new ArrayList<Reservation>();
         List<Object> rs;
@@ -60,10 +64,15 @@ public class ServiceReservation {
             }
             return mesReservations;
         } catch (Exception exc) {
-            throw new MonException(exc.getMessage(), "systeme");
+            throw new MonException(exc.getMessage(), "Systeme");
         }
     }
 
+    /***
+     * Supprime une réservation spécifique
+     * @param resa
+     * @throws MonException
+     */
     public void supprimerReservation(Reservation resa) throws MonException {
         try {
             String rq = "delete from reservation where id_oeuvrevente=" + resa.getOeuvrevente().getIdOeuvrevente() +
@@ -82,34 +91,47 @@ public class ServiceReservation {
         }
     }
 
-    public void supprimerReservation(Adherent adherent) {
-        String rq = "delete from reservation where id_adherent=" + adherent.getIdAdherent();
-
-        DialogueBd unDialogueBd = DialogueBd.getInstance();
+    /***
+     * Suppression les réservations associées à un adhérent
+     * (+ l'oeuvre redeviens disponible)
+     * @param adherent
+     */
+    public void supprimerReservation(Adherent adherent) throws MonException {
         try {
-            unDialogueBd.execute(rq);
+            List<Reservation> adherentReservations =
+                    consulterReservations("SELECT * " +
+                        "FROM Reservation " +
+                        "WHERE id_adherent = " + adherent.getIdAdherent());
+
+            for(Reservation resa : adherentReservations) {
+                supprimerReservation(resa);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
+            throw new MonException (ex.getMessage(), "Erreur suppression des réservations d'un adhérents");
         }
     }
 
-    public void supprimerReservation(Oeuvrevente oeuvre) {
+    /***
+     * Suppression des réservations associées à une oeuvre
+     * @param oeuvre
+     */
+    public void supprimerReservation(Oeuvrevente oeuvre) throws MonException {
         String rq = "delete from reservation where id_oeuvrevente=" + oeuvre.getIdOeuvrevente();
 
         DialogueBd unDialogueBd = DialogueBd.getInstance();
         try {
             unDialogueBd.execute(rq);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw new MonException(ex.getMessage());
         }
     }
 
     /**
      * Suppression des reservations lié a une oeuvre lié a un proprietaire
-     *
      * @param prop
      */
-    public void supprimerReservation(Proprietaire prop) {
+    public void supprimerReservation(Proprietaire prop) throws MonException {
         String rq = "delete from reservation where id_oeuvrevente in " +
                 "(select id_oeuvrevente from oeuvrevente where id_proprietaire = " + prop.getIdProprietaire() + ")";
 
@@ -117,7 +139,7 @@ public class ServiceReservation {
         try {
             unDialogueBd.execute(rq);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw new MonException(ex.getMessage());
         }
     }
 
@@ -136,8 +158,7 @@ public class ServiceReservation {
             new ServiceOeuvre().modifierOeuvrevente(resa.getOeuvrevente());
 
         } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new MonException(ex.getMessage(), "insertion reservation");
+            throw new MonException(ex.getMessage());
         }
         return resa;
     }

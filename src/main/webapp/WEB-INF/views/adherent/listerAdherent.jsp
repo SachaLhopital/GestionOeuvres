@@ -39,7 +39,7 @@
                         <td>${item.prenomAdherent}</td>
                         <td>${item.villeAdherent}</td>
                         <td>
-                            <a href="/reservations/ajouterReservation.htm" id="${item.idAdherent}">
+                            <a href="/reservations/ajouterReservation/${item.idAdherent}">
                                 <button type="button" class="btn btn-info" aria-label="Left Align">
                                     <span class="fa fa-plus" aria-hidden="true">&nbsp;Ajouter une R&eacute;servation</span>
                                 </button>
