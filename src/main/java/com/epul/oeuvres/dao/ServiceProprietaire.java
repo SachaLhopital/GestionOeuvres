@@ -51,7 +51,7 @@ public class ServiceProprietaire {
         return mesProprietaires;
     }
 
-    public Proprietaire insererProprietaire(Proprietaire prop){
+    public Proprietaire insererProprietaire(Proprietaire prop) throws MonException {
         String rq = "insert into proprietaire (nom_proprietaire, prenom_proprietaire) values "+
                 "('"+prop.getNomProprietaire()+"',"+
                 "'"+ prop.getPrenomProprietaire()+"')";
@@ -60,8 +60,7 @@ public class ServiceProprietaire {
         try{
             unDialogueBd.insertionBD(rq);
         }catch(Exception ex){
-            ex.printStackTrace();
-            return null;
+            throw new MonException(ex.getMessage());
         }
 
         //recuperation de l'ID
@@ -72,20 +71,18 @@ public class ServiceProprietaire {
         {
             rs = unDialogueBd.lecture(rq);
         }catch (Exception ex){
-            ex.printStackTrace();
-            return null;
+            throw new MonException(ex.getMessage());
         }
 
         if(rs.size()<=0){
-            return null;
+            throw new MonException("Erreur lors de l'insertion d'un proprietaire");
         }
 
         prop.setIdProprietaire(Integer.parseInt(rs.get(0).toString()));
-
         return prop;
     }
 
-    public Proprietaire modifierProprietaire(Proprietaire prop){
+    public Proprietaire modifierProprietaire(Proprietaire prop) throws MonException {
 
         String rq = "update proprietaire set "+
                 "nom_proprietaire='"+prop.getNomProprietaire()+"',"+
@@ -96,10 +93,8 @@ public class ServiceProprietaire {
         try{
             unDialogueBd.execute(rq);
         }catch(Exception ex){
-            ex.printStackTrace();
-            return null;
+            throw new MonException(ex.getMessage());
         }
-
         return prop;
     }
 

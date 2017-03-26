@@ -197,7 +197,7 @@ public class ServiceOeuvre {
                 "etat_oeuvrevente='"+oeuvre.getEtatOeuvrevente()+"',"+
                 "id_proprietaire="+oeuvre.getProprietaire().getIdProprietaire()+","+
                 "prix_oeuvrevente="+oeuvre.getPrixOeuvrevente()+","+
-                "titre_oeuvrevente='"+oeuvre.getTitreOeuvrevente()+"'"+
+                "titre_oeuvrevente='"+oeuvre.getTitreOeuvrevente().toString() +"'"+
                 " where id_oeuvrevente='"+oeuvre.getIdOeuvrevente() +"';";
 
         try {

@@ -7,10 +7,8 @@ import com.epul.oeuvres.metier.Oeuvrepret;
 import com.epul.oeuvres.metier.Oeuvrevente;
 import com.epul.oeuvres.utilitaires.Constantes;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/oeuvres/")
 public class ControleurOeuvre extends MultiControleur {
 
-    ServiceOeuvre serviceOeuvre = new ServiceOeuvre();
-    ServiceProprietaire serviceProprietaire = new ServiceProprietaire();
+    private ServiceOeuvre serviceOeuvre = new ServiceOeuvre();
+    private ServiceProprietaire serviceProprietaire = new ServiceProprietaire();
 
     private static final String OEUVRE = "Oeuvre";
     private static final String PRET = "pret";
@@ -43,21 +41,23 @@ public class ControleurOeuvre extends MultiControleur {
         try {
             request.setAttribute("mesOeuvresPret", serviceOeuvre.ConsulterListeOeuvrepret());
             request.setAttribute("mesOeuvresVente", serviceOeuvre.ConsulterListeOeuvrevente());
-            destinationPage = "oeuvre/listerOeuvre";
+            return new ModelAndView("oeuvre/listerOeuvre");
         } catch (Exception e) {
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_LISTING.replace("%s", OEUVRE));
-            errorPage();
         }
-        return new ModelAndView(destinationPage);
+        return errorPage();
     }
 
     @RequestMapping(AJOUTER_OEUVRES + "/{type}/{id}")
-    public ModelAndView addOeuvre(@PathVariable("id") int id, @PathVariable("type") String type, HttpServletRequest request) throws Exception {
+    public ModelAndView addOeuvre(
+            @PathVariable("id") int id,
+            @PathVariable("type") String type,
+            HttpServletRequest request) throws Exception {
+
         if (type.equals("") || id == 0) {
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_MISSING_ARGS);
             return errorPage();
         }
-        //request.setAttribute("enumValues", Constantes.EtatsOeuvre.values());
         request.setAttribute("type", type);
         request.setAttribute("actionSubmit", "/oeuvres/insererOeuvre");
         request.setAttribute("proprietaire", serviceProprietaire.consulterProprietaire(id));
@@ -164,15 +164,14 @@ public class ControleurOeuvre extends MultiControleur {
             request.setAttribute("oeuvre", o);
             request.setAttribute("proprietaire", o.getProprietaire());
             request.setAttribute("actionSubmit", "/oeuvres/" + UPDATE_OEUVRES);
-            destinationPage = "/oeuvre/formOeuvre";
+            return new ModelAndView("/oeuvre/formOeuvre");
 
         } catch(MonException e) {
             request.setAttribute(
                     Constantes.ERROR_KEY,
                     Constantes.ERROR_DETAIL.replace("%s", OEUVRE + PRET));
-            errorPage();
         }
-        return new ModelAndView(destinationPage);
+        return errorPage();
     }
 
     @RequestMapping("deleteOeuvrePret/{id}")
@@ -209,15 +208,14 @@ public class ControleurOeuvre extends MultiControleur {
             request.setAttribute("oeuvre", o);
             request.setAttribute("proprietaire", o.getProprietaire());
             request.setAttribute("actionSubmit", "/oeuvres/updateOeuvre");
-            destinationPage = "/oeuvre/formOeuvre";
+            return new ModelAndView("/oeuvre/formOeuvre");
 
         } catch(MonException e) {
             request.setAttribute(
                     Constantes.ERROR_KEY,
                     Constantes.ERROR_DETAIL.replace("%s", OEUVRE + VENTE));
-            errorPage();
         }
-        return new ModelAndView(destinationPage);
+        return errorPage();
     }
 
     @RequestMapping("deleteOeuvreVente/{id}")

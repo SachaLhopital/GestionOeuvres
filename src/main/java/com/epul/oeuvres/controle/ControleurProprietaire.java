@@ -20,9 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/proprietaires/")
 public class ControleurProprietaire extends MultiControleur {
 
-    ServiceProprietaire serviceProprietaire = new ServiceProprietaire();
+    private ServiceProprietaire serviceProprietaire = new ServiceProprietaire();
 
-    private static final String PROPRIETAIRE = "Proprietaire";
     private static final String LISTER_PROPRIETAIRE = "listerProprietaire.htm";
     private static final String AJOUTER_PROPRIETAIRE = "ajouterProprietaire.htm";
     private static final String INSERER_PROPRIETAIRE = "insererProprietaire.htm";
@@ -42,23 +41,17 @@ public class ControleurProprietaire extends MultiControleur {
     }
 
     @RequestMapping(AJOUTER_PROPRIETAIRE)
-    public ModelAndView getProprietaireForm(HttpServletRequest request, HttpServletResponse response) throws MonException {
+    public ModelAndView getProprietaireForm(HttpServletRequest request) throws MonException {
         request.setAttribute("actionSubmit", "/proprietaires/" + INSERER_PROPRIETAIRE);
         return new ModelAndView("/proprietaire/formProprietaire");
     }
 
-    /***
-     * Insert and redirect to list
-     * @param request
-     * @return
-     */
     @RequestMapping(INSERER_PROPRIETAIRE)
     public ModelAndView insertProprietaire(HttpServletRequest request) throws MonException {
         try {
             Proprietaire unProprietaire = new Proprietaire();
             unProprietaire.setNomProprietaire(request.getParameter("txtnom"));
             unProprietaire.setPrenomProprietaire(request.getParameter("txtprenom"));
-
             serviceProprietaire.insererProprietaire(unProprietaire);
             return getProprietaireList(request);
 
@@ -69,7 +62,10 @@ public class ControleurProprietaire extends MultiControleur {
     }
 
     @RequestMapping(DETAIL_PROPRIETAIRE + "/{id}")
-    public ModelAndView getDetailsProprietaire(@PathVariable("id") int id, HttpServletRequest request) throws MonException {
+    public ModelAndView getDetailsProprietaire(
+            @PathVariable("id") int id,
+            HttpServletRequest request) throws MonException {
+
         if(id == 0) {
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_ID_MISSING);
             return errorPage();
@@ -103,7 +99,10 @@ public class ControleurProprietaire extends MultiControleur {
     }
 
     @RequestMapping(DELETE_PROPRIETAIRE + "/{id}")
-    public ModelAndView removeProprietaire(@PathVariable("id") int id, HttpServletRequest request) throws MonException {
+    public ModelAndView removeProprietaire(
+            @PathVariable("id") int id,
+            HttpServletRequest request) throws MonException {
+
         if(id == 0) {
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_ID_MISSING);
             return errorPage();

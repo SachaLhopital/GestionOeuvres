@@ -19,23 +19,18 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/adherents/")
 public class ControleurAdherent extends MultiControleur {
 
+    private ServiceAdherent service = new ServiceAdherent();
+
     public static final String ADHERENT = "adhérent";
     private static final String LISTER_ADHERENT = "listerAdherent.htm";
     private static final String AJOUTER_ADHERENT = "ajouterAdherent.htm";
     private static final String INSERER_ADHERENT = "insererAdherent.htm";
     private static final String UPDATE_ADHERENT = "updateAdherent.htm";
 
-    /***
-     * Get Adherent List
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
     @RequestMapping(value = LISTER_ADHERENT)
-    public ModelAndView getAdherentList(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView getAdherentList(HttpServletRequest request) {
         try {
-            request.setAttribute("mesAdherents", new ServiceAdherent().consulterListeAdherents());
+            request.setAttribute("mesAdherents", service.consulterListeAdherents());
             return new ModelAndView( "adherent/listerAdherent");
         } catch (Exception e) {
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_LISTING);
@@ -69,8 +64,8 @@ public class ControleurAdherent extends MultiControleur {
             unAdherent.setPrenomAdherent(request.getParameter("txtprenom"));
             unAdherent.setVilleAdherent(request.getParameter("txtville"));
 
-            new ServiceAdherent().insertAdherent(unAdherent);
-            return getAdherentList(request, null);
+            service.insertAdherent(unAdherent);
+            return getAdherentList(request);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,11 +74,6 @@ public class ControleurAdherent extends MultiControleur {
         return errorPage();
     }
 
-    /***
-     * Get an Adherent by Id and redirect to form
-     * @param request
-     * @return
-     */
     @RequestMapping("detailAdherent/{id}")
     public ModelAndView getAdherent(@PathVariable("id") int id, HttpServletRequest request) {
         try {
@@ -92,7 +82,7 @@ public class ControleurAdherent extends MultiControleur {
                 return errorPage();
             }
 
-            Adherent a = new ServiceAdherent().consulterAdherent(id);
+            Adherent a = service.consulterAdherent(id);
 
             if (a == null) {
                 request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_DETAIL.replace("%s", ADHERENT));
@@ -100,7 +90,7 @@ public class ControleurAdherent extends MultiControleur {
             }
 
             request.setAttribute("adherent", a);
-            request.setAttribute("actionSubmit", "/adherents/" +UPDATE_ADHERENT);
+            request.setAttribute("actionSubmit", "/adherents/" + UPDATE_ADHERENT);
             return new ModelAndView("adherent/formAdherent");
 
         } catch (Exception e) {
@@ -110,11 +100,6 @@ public class ControleurAdherent extends MultiControleur {
         return errorPage();
     }
 
-    /***
-     * Update Adherent and redirect to List
-     * @param request
-     * @return
-     */
     @RequestMapping(UPDATE_ADHERENT)
     public ModelAndView updateAdherent(HttpServletRequest request) throws MonException {
         if(request.getParameter("txtId") == null
@@ -126,14 +111,13 @@ public class ControleurAdherent extends MultiControleur {
         }
 
         try {
-            ServiceAdherent service = new ServiceAdherent();
             Adherent adherentToUpdate = service
                     .consulterAdherent(Integer.parseInt(request.getParameter("txtId")));
             adherentToUpdate.setNomAdherent(request.getParameter("txtnom"));
             adherentToUpdate.setPrenomAdherent(request.getParameter("txtprenom"));
             adherentToUpdate.setVilleAdherent(request.getParameter("txtville"));
             service.modifierAdherent(adherentToUpdate);
-            return getAdherentList(request, null);
+            return getAdherentList(request);
 
         } catch(Exception e) {
             e.printStackTrace();
@@ -142,11 +126,6 @@ public class ControleurAdherent extends MultiControleur {
         return errorPage();
     }
 
-    /***
-     * Delete an Adherent and redirect to list
-     * @param request
-     * @return
-     */
     @RequestMapping("supprimerAdherent/{id}")
     public ModelAndView deleteAdherent(@PathVariable("id") int id, HttpServletRequest request) {
         if(id == 0) {
@@ -154,9 +133,8 @@ public class ControleurAdherent extends MultiControleur {
             return errorPage();
         }
         try {
-            ServiceAdherent service = new ServiceAdherent();
             service.supprimerAdherent(service.consulterAdherent(id));
-            return getAdherentList(request, null);
+            return getAdherentList(request);
         } catch(Exception e){
             e.printStackTrace();
             request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_DELETING);

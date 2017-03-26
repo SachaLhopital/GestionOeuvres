@@ -24,7 +24,7 @@ public class ControleurReservation extends MultiControleur {
     ServiceAdherent serviceAdherent = new ServiceAdherent();
     ServiceOeuvre serviceOeuvre = new ServiceOeuvre();
 
-    private static final String RESERVATION = "Reservation";
+    private static final String RESERVATION = "reservation";
     private static final String LISTER_RESERVATION = "listerReservation.htm";
     private static final String AJOUTER_RESERVATION = "ajouterReservation";
     private static final String INSERER_RESERVATION = "insererReservation";
@@ -87,7 +87,7 @@ public class ControleurReservation extends MultiControleur {
             return getReservationList(request);
 
         } catch (Exception e) {
-            request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_INSERT);
+            request.setAttribute(Constantes.ERROR_KEY, Constantes.ERROR_INSERT.replace("%s", RESERVATION));
         }
         return errorPage();
     }
